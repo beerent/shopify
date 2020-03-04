@@ -27,3 +27,20 @@ CREATE TABLE `shopify`.`orders` (
     REFERENCES `shopify`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+    CREATE TABLE `shopify`.`order_product_map` (
+  `order_id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  INDEX `map_order_id_fk_idx` (`order_id` ASC),
+  INDEX `map_product_id_fk_idx` (`product_id` ASC),
+  UNIQUE INDEX `unique_entries` (`order_id` ASC, `product_id` ASC),
+  CONSTRAINT `map_order_id_fk`
+    FOREIGN KEY (`order_id`)
+    REFERENCES `shopify`.`orders` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `map_product_id_fk`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `shopify`.`products` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
