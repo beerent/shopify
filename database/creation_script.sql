@@ -4,3 +4,6 @@ CREATE TABLE `shopify`.`users` (
   `last_name` VARCHAR(45) NULL,
   `email` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`));
+
+ALTER TABLE `shopify`.`users` 
+ADD COLUMN `added` DATETIME NULL AFTER `email`;
