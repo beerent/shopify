@@ -28,7 +28,7 @@ CREATE TABLE `shopify`.`orders` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-    CREATE TABLE `shopify`.`order_product_map` (
+CREATE TABLE `shopify`.`order_product_map` (
   `order_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   INDEX `map_order_id_fk_idx` (`order_id` ASC),
@@ -44,3 +44,6 @@ CREATE TABLE `shopify`.`orders` (
     REFERENCES `shopify`.`products` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+ALTER TABLE `shopify`.`products` 
+ADD COLUMN `price` DOUBLE NOT NULL AFTER `description`;
