@@ -10,11 +10,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class ShopifyApiMain {
 	public static void main(String[] args) {
-		EcommerceCommunicator communicator = new ShopifyCommunicator();
-
-		ConfigurableApplicationContext context = SpringApplication.run(ShopifyApiMain.class, args);
-
-		FetchOrdersEndpoint fetchEndpoint = context.getBean(FetchOrdersEndpoint.class);
-		//fetchEndpoint.SetECommerceCommunicator(communicator);
+		SpringApplication.run(ShopifyApiMain.class, args);
 	}
 }

@@ -20,6 +20,7 @@ public class FetchOrdersEndpoint {
     @GetMapping("/fetch")
     @ResponseBody
     public String Fetch() {
+        eCommerceCommunicator.FetchOrders();
         return "fetching!\n";
     }
 }
