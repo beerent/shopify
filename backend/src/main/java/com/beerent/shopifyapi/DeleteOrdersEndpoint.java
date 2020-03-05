@@ -1,16 +1,16 @@
-package com.example.demo;
+package com.beerent.shopifyapi;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class FetchOrdersEndpoint {
+public class DeleteOrdersEndpoint {
 
-    @GetMapping("/fetch")
+    @GetMapping("/delete")
     @ResponseBody
     public String HelloWorld() {
-        return "fetching orders!";
+        return "deleting orders!";
     }
 
 }
