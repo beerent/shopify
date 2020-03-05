@@ -47,3 +47,6 @@ CREATE TABLE `shopify`.`order_product_map` (
 
 ALTER TABLE `shopify`.`products` 
 ADD COLUMN `price` DOUBLE NOT NULL AFTER `description`;
+
+ALTER TABLE `shopify`.`order_product_map` 
+DROP INDEX `unique_entries` ;
