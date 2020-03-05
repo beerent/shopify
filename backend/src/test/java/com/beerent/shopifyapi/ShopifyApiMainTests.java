@@ -9,5 +9,4 @@ class ShopifyApiMainTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

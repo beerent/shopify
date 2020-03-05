@@ -10,7 +10,7 @@ public class DeleteOrdersEndpoint {
     @GetMapping("/delete")
     @ResponseBody
     public String Delete() {
-        return "deleting orders!";
+        return "deleting orders!\n";
     }
 
 }
