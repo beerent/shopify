@@ -1,4 +1,4 @@
-package com.beerent.shopifyapi;
+package com.beerent.shopifyapi.endpoints;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +9,7 @@ public class DeleteOrdersEndpoint {
 
     @GetMapping("/delete")
     @ResponseBody
-    public String HelloWorld() {
+    public String Delete() {
         return "deleting orders!";
     }
 
