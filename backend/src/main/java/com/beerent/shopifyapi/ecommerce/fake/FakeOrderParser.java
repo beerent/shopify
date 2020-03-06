@@ -67,7 +67,7 @@ public class FakeOrderParser implements OrderParser {
         String email = (String) userJson.get(USER_EMAIL);
         String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
 
-        return new User(ecommerceId, firstName, lastName, email, phoneNumber);
+        return new User(firstName, lastName, email, phoneNumber);
     }
 
     Products ParseProducts(JSONArray productsJson) {
