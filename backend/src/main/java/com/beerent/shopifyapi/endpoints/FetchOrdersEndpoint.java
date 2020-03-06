@@ -1,7 +1,7 @@
 package com.beerent.shopifyapi.endpoints;
 
+import com.beerent.shopifyapi.ecommerce.OrderParser;
 import com.beerent.shopifyapi.model.Order;
-import com.beerent.shopifyapi.model.util.ShopifyOrderParser;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,12 +16,12 @@ import java.util.ArrayList;
 @RestController
 public class FetchOrdersEndpoint {
     private EcommerceCommunicator eCommerceCommunicator;
-    private ShopifyOrderParser orderParser;
+    private OrderParser orderParser;
 
     @Autowired
-    FetchOrdersEndpoint(EcommerceCommunicator communicator) {
+    FetchOrdersEndpoint(EcommerceCommunicator communicator, OrderParser orderParser) {
         this.eCommerceCommunicator = communicator;
-        this.orderParser = new ShopifyOrderParser();
+        this.orderParser = orderParser;
     }
 
     @GetMapping("/fetch")

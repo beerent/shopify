@@ -1,13 +1,15 @@
-package com.beerent.shopifyapi.model.util;
+package com.beerent.shopifyapi.ecommerce.shopify;
 
 import java.util.ArrayList;
+
+import com.beerent.shopifyapi.ecommerce.OrderParser;
 import com.beerent.shopifyapi.model.Order;
 import com.beerent.shopifyapi.model.Product;
 import com.beerent.shopifyapi.model.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class ShopifyOrderParser {
+public class ShopifyOrderParser implements OrderParser {
     private static final String ORDERS = "orders";
 
     private static final String USER = "customer";
