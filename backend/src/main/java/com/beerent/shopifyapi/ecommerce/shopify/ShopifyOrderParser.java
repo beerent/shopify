@@ -3,9 +3,11 @@ package com.beerent.shopifyapi.ecommerce.shopify;
 import java.util.ArrayList;
 
 import com.beerent.shopifyapi.ecommerce.OrderParser;
-import com.beerent.shopifyapi.model.Order;
-import com.beerent.shopifyapi.model.Product;
-import com.beerent.shopifyapi.model.User;
+import com.beerent.shopifyapi.model.orders.Order;
+import com.beerent.shopifyapi.model.orders.Orders;
+import com.beerent.shopifyapi.model.products.Product;
+import com.beerent.shopifyapi.model.products.Products;
+import com.beerent.shopifyapi.model.users.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -26,13 +28,13 @@ public class ShopifyOrderParser implements OrderParser {
 
     private static final String ORDER_ID = "id";
 
-
-    public ArrayList<Order> ParseOrders(JSONObject obj) {
+    @Override
+    public Orders ParseOrders(JSONObject obj) {
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
         return ParseOrders(ordersJson);
     }
 
-    private ArrayList<Order> ParseOrders(JSONArray ordersJson) {
+    private Orders ParseOrders(JSONArray ordersJson) {
         ArrayList<Order> orders = new ArrayList<Order>();
 
         for (int i = 0; i < ordersJson.size(); i++) {
@@ -41,7 +43,7 @@ public class ShopifyOrderParser implements OrderParser {
             orders.add(order);
         }
 
-        return orders;
+        return new Orders(orders);
     }
 
     private Order ParseOrder(JSONObject orderJson) {
@@ -51,7 +53,7 @@ public class ShopifyOrderParser implements OrderParser {
         User user = ParseUser(userJson);
 
         JSONArray productsJson = (JSONArray) orderJson.get(PRODUCTS);
-        ArrayList<Product> products = ParseProducts(productsJson);
+        Products products = ParseProducts(productsJson);
 
         Order order = new Order(ecommerceId, user, products);
         return order;
@@ -67,7 +69,7 @@ public class ShopifyOrderParser implements OrderParser {
         return new User(ecommerceId, firstName, lastName, email, phoneNumber);
     }
 
-    ArrayList<Product> ParseProducts(JSONArray productsJson) {
+    Products ParseProducts(JSONArray productsJson) {
         ArrayList<Product> products = new ArrayList<Product>();
 
         for (int i = 0; i < productsJson.size(); i++) {
@@ -76,7 +78,7 @@ public class ShopifyOrderParser implements OrderParser {
             products.add(product);
         }
 
-        return products;
+        return new Products(products);
     }
 
     Product ParseProduct(JSONObject productJson) {

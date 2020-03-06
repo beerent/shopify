@@ -1,9 +1,8 @@
 package com.beerent.shopifyapi.ecommerce;
 
-import java.util.ArrayList;
-import com.beerent.shopifyapi.model.Order;
+import com.beerent.shopifyapi.model.orders.Orders;
 import org.json.simple.JSONObject;
 
 public interface OrderParser {
-    ArrayList<Order> ParseOrders(JSONObject ordersJson);
+    public Orders ParseOrders(JSONObject ordersJson);
 }

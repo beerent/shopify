@@ -1,7 +1,7 @@
 package com.beerent.shopifyapi.endpoints;
 
 import com.beerent.shopifyapi.ecommerce.OrderParser;
-import com.beerent.shopifyapi.model.Order;
+import com.beerent.shopifyapi.model.orders.Orders;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,7 +28,7 @@ public class FetchOrdersEndpoint {
     @ResponseBody
     public String Fetch() {
         JSONObject ordersJson = eCommerceCommunicator.FetchOrders();
-        ArrayList<Order> orders = this.orderParser.ParseOrders(ordersJson);
+        Orders orders = this.orderParser.ParseOrders(ordersJson);
         return "fetching!\n";
     }
 }

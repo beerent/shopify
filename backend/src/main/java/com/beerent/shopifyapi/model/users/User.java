@@ -1,4 +1,4 @@
-package com.beerent.shopifyapi.model;
+package com.beerent.shopifyapi.model.users;
 
 public class User {
     private Long ecommerceId;
