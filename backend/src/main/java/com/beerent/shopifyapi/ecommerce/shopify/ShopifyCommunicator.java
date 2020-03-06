@@ -55,7 +55,6 @@ public class ShopifyCommunicator implements EcommerceCommunicator {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return obj;
     }
 }
