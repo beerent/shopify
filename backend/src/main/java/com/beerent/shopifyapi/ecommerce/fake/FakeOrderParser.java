@@ -85,6 +85,6 @@ public class FakeOrderParser {
         String name = (String) productJson.get(PRODUCT_NAME);
         Double price = (Double) productJson.get(PRODUCT_PRICE);
 
-        return new Product(ecommerceId, name, price);
+        return new Product(name, price);
     }
 }

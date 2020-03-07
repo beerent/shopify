@@ -13,5 +13,6 @@
         <property name="show_sql">false</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <mapping class="com.beerent.shopifyapi.model.users.User"/>
+        <mapping class="com.beerent.shopifyapi.model.products.Product"/>
     </session-factory>
 </hibernate-configuration>

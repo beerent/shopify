@@ -1,5 +1,6 @@
 package com.beerent.shopifyapi.model.orders;
 
+import com.beerent.shopifyapi.model.products.Product;
 import com.beerent.shopifyapi.model.users.User;
 
 import java.util.ArrayList;
@@ -20,12 +21,19 @@ public class Orders {
         List<User> users = new ArrayList<User>();
 
         for (Order order : orders) {
-            User user = order.getUser();
-            if (users.contains(user) == false) {
-                users.add(order.getUser());
-            }
+            users.add(order.getUser());
         }
 
         return users;
+    }
+
+    public List<Product> GetProducts() {
+        List<Product> allProducts = new ArrayList<Product>();
+
+        for (Order order : orders) {
+            allProducts.addAll(order.getProducts().GetProducts());
+        }
+
+        return allProducts;
     }
 }
