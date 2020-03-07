@@ -1,6 +1,6 @@
 package com.beerent.shopifyapi.endpoints;
 
-import com.beerent.shopifyapi.ecommerce.OrderParser;
+import com.beerent.shopifyapi.database.orders.OrdersDao;
 import com.beerent.shopifyapi.model.orders.Orders;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +11,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.beerent.shopifyapi.ecommerce.EcommerceCommunicator;
 
-import java.util.ArrayList;
-
 @RestController
 public class FetchOrdersEndpoint {
     private EcommerceCommunicator eCommerceCommunicator;
-    private OrderParser orderParser;
+    private OrdersDao ordersDao;
 
     @Autowired
-    FetchOrdersEndpoint(EcommerceCommunicator communicator, OrderParser orderParser) {
+    FetchOrdersEndpoint(EcommerceCommunicator communicator) {
         this.eCommerceCommunicator = communicator;
-        this.orderParser = orderParser;
+        this.ordersDao = new OrdersDao();
     }
 
     @GetMapping("/fetch")
-    @ResponseBody
+    @ResponseBody //what is this?
     public String Fetch() {
-        JSONObject ordersJson = eCommerceCommunicator.FetchOrders();
-        Orders orders = this.orderParser.ParseOrders(ordersJson);
+        Orders orders = eCommerceCommunicator.FetchOrders();
+        ordersDao.PersistOrders(orders);
         return "fetching!\n";
     }
 }

@@ -1,6 +1,5 @@
 package com.beerent.shopifyapi.ecommerce.fake;
 
-import com.beerent.shopifyapi.ecommerce.OrderParser;
 import com.beerent.shopifyapi.model.orders.Order;
 import com.beerent.shopifyapi.model.orders.Orders;
 import com.beerent.shopifyapi.model.products.Product;
@@ -11,7 +10,7 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
-public class FakeOrderParser implements OrderParser {
+public class FakeOrderParser {
 
     private static final String ORDERS = "orders";
 
@@ -29,7 +28,6 @@ public class FakeOrderParser implements OrderParser {
 
     private static final String ORDER_ID = "id";
 
-    @Override
     public Orders ParseOrders(JSONObject obj) {
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
         return ParseOrders(ordersJson);

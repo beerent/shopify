@@ -7,7 +7,6 @@ import com.beerent.shopifyapi.model.users.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 public class UserDao implements DaoInterface<User, String> {
@@ -61,13 +60,18 @@ public class UserDao implements DaoInterface<User, String> {
     }
 
     @Override
-    public void persist(User entity) {
-        getCurrentSession().save(entity);
+    public void persist(User user) {
+        getCurrentSession().save(user);
     }
 
     @Override
-    public void update(User entity) {
-        getCurrentSession().update(entity);
+    public void update(User user) {
+        getCurrentSession().update(user);
+    }
+
+    public User findByEmail(String id) {
+        User user = (User) getCurrentSession().get(User.class, id);
+        return user;
     }
 
     public User findById(String id) {

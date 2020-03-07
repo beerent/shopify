@@ -1,6 +1,7 @@
 package com.beerent.shopifyapi.ecommerce.shopify;
 
 import com.beerent.shopifyapi.ecommerce.EcommerceCommunicator;
+import com.beerent.shopifyapi.model.orders.Orders;
 import org.json.simple.parser.JSONParser;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.simple.JSONObject;
@@ -24,11 +25,15 @@ public class ShopifyCommunicator implements EcommerceCommunicator {
     private String store;
     private String version;
 
+    ShopifyOrderParser orderParser;
+
     public ShopifyCommunicator(String apiKey, String password, String store, String version) {
         this.apiKey = apiKey;
         this.password = password;
         this.store = store;
         this.version = version;
+
+        this.orderParser = new ShopifyOrderParser();
     }
 
     /*
@@ -37,12 +42,12 @@ public class ShopifyCommunicator implements EcommerceCommunicator {
      * see EcommerceCommunicator::FetchOrders()
     */
     @Override
-    public JSONObject FetchOrders() {
+    public Orders FetchOrders() {
         String uri = GetApiUri();
         HttpEntity<String> request = GetHTTPEntity();
         ResponseEntity<String> response = ExecuteApiExchange(uri, HttpMethod.GET, request, String.class);
 
-        return ResponseToJson(response);
+        return this.orderParser.ParseOrders(ResponseToJson(response));
     }
 
     private String GetApiUri() {

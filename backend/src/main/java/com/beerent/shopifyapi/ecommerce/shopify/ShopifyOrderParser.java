@@ -2,7 +2,6 @@ package com.beerent.shopifyapi.ecommerce.shopify;
 
 import java.util.ArrayList;
 
-import com.beerent.shopifyapi.ecommerce.OrderParser;
 import com.beerent.shopifyapi.model.orders.Order;
 import com.beerent.shopifyapi.model.orders.Orders;
 import com.beerent.shopifyapi.model.products.Product;
@@ -11,7 +10,7 @@ import com.beerent.shopifyapi.model.users.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class ShopifyOrderParser implements OrderParser {
+public class ShopifyOrderParser {
     private static final String ORDERS = "orders";
 
     private static final String USER = "customer";
@@ -28,7 +27,6 @@ public class ShopifyOrderParser implements OrderParser {
 
     private static final String ORDER_ID = "id";
 
-    @Override
     public Orders ParseOrders(JSONObject obj) {
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
         return ParseOrders(ordersJson);

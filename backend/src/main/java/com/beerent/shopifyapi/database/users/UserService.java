@@ -12,15 +12,23 @@ public class UserService {
         userDao = new UserDao();
     }
 
-    public void persist(User entity) {
+    public void persist(List<User> users) {
         userDao.openCurrentSessionwithTransaction();
-        userDao.persist(entity);
+        for (User user : users) {
+            userDao.persist(user);
+        }
         userDao.closeCurrentSessionwithTransaction();
     }
 
-    public void update(User entity) {
+    public void persist(User user) {
         userDao.openCurrentSessionwithTransaction();
-        userDao.update(entity);
+        userDao.persist(user);
+        userDao.closeCurrentSessionwithTransaction();
+    }
+
+    public void update(User user) {
+        userDao.openCurrentSessionwithTransaction();
+        userDao.update(user);
         userDao.closeCurrentSessionwithTransaction();
     }
 
@@ -32,13 +40,6 @@ public class UserService {
         return user;
     }
 
-    public void delete(String id) {
-        userDao.openCurrentSessionwithTransaction();
-        User user = userDao.findById(id);
-        userDao.delete(user);
-        userDao.closeCurrentSessionwithTransaction();
-    }
-
     public List<User> findAll() {
         userDao.openCurrentSession();
         List<User> users = userDao.findAll();
@@ -47,13 +48,16 @@ public class UserService {
         return users;
     }
 
+    public void delete(String id) {
+        userDao.openCurrentSessionwithTransaction();
+        User user = userDao.findById(id);
+        userDao.delete(user);
+        userDao.closeCurrentSessionwithTransaction();
+    }
+
     public void deleteAll() {
         userDao.openCurrentSessionwithTransaction();
         userDao.deleteAll();
         userDao.closeCurrentSessionwithTransaction();
-    }
-
-    public UserDao userDao() {
-        return userDao;
     }
 }

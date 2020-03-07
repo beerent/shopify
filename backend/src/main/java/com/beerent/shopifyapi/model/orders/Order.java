@@ -16,4 +16,16 @@ public class Order {
         this.user = user;
         this.products = products;
     }
+
+    public Long getEcommerceId() {
+        return ecommerceId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Products getProducts() {
+        return products;
+    }
 }

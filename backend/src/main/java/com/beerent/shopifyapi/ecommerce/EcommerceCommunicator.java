@@ -1,6 +1,6 @@
 package com.beerent.shopifyapi.ecommerce;
 
-import org.json.simple.JSONObject;
+import com.beerent.shopifyapi.model.orders.Orders;
 
 /*
  * Interface for communicating with some Ecommerce instance.
@@ -13,5 +13,5 @@ public interface EcommerceCommunicator {
     /*
      * Retrieve all orders from the ecommerce endpoint
     */
-    public JSONObject FetchOrders();
+    public Orders FetchOrders();
 }
