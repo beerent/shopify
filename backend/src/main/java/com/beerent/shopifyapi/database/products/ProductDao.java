@@ -5,6 +5,7 @@ import java.util.List;
 import com.beerent.shopifyapi.database.DaoInterface;
 import com.beerent.shopifyapi.model.products.Product;
 
+import com.beerent.shopifyapi.model.users.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -70,9 +71,16 @@ public class ProductDao implements DaoInterface<Product, String> {
         getCurrentSession().update(product);
     }
 
-    public Product findByEmail(String id) {
-        Product product = (Product) getCurrentSession().get(Product.class, id);
-        return product;
+    public Product findByName(String name) {
+        List<Product> products = (List<Product>) getCurrentSession()
+                .createQuery("from Product where name = :name")
+                .setParameter("name", name).list();
+
+        if (products.isEmpty()) {
+            return null;
+        }
+
+        return products.get(0); // DANGER if email is not unique
     }
 
     public Product findById(String id) {

@@ -1,6 +1,7 @@
 package com.beerent.shopifyapi.database.products;
 
 import com.beerent.shopifyapi.model.products.Product;
+import com.beerent.shopifyapi.model.users.User;
 
 import java.util.List;
 
@@ -14,9 +15,14 @@ public class ProductService {
 
     public void persist(List<Product> products) {
         productDao.openCurrentSessionwithTransaction();
+
         for (Product product : products) {
+            if  (productDao.findByName(product.getName()) != null) {
+                continue;
+            }
             productDao.persist(product);
         }
+
         productDao.closeCurrentSessionwithTransaction();
     }
 
