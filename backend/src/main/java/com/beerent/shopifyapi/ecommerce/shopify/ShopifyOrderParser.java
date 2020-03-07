@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.beerent.shopifyapi.model.containers.Order;
 import com.beerent.shopifyapi.model.containers.Orders;
+import com.beerent.shopifyapi.model.orders.OrderModel;
 import com.beerent.shopifyapi.model.products.ProductModel;
 import com.beerent.shopifyapi.model.containers.Products;
 import com.beerent.shopifyapi.model.users.UserModel;
@@ -26,6 +27,7 @@ public class ShopifyOrderParser {
     private static final String PRODUCT_ID = "id";
 
     private static final String ORDER_ID = "id";
+    private static final String ORDER_PROCESSED_TIMESTAMP = "processed_at";
 
     public Orders ParseOrders(JSONObject obj) {
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
@@ -45,15 +47,16 @@ public class ShopifyOrderParser {
     }
 
     private Order ParseOrder(JSONObject orderJson) {
-        Long ecommerceId = (Long) orderJson.get(ORDER_ID);
-
         JSONObject userJson = (JSONObject) orderJson.get(USER);
         UserModel user = ParseUser(userJson);
 
         JSONArray productsJson = (JSONArray) orderJson.get(PRODUCTS);
         Products products = ParseProducts(productsJson);
 
-        Order order = new Order(user, products);
+        Long ecommerceId = (Long) orderJson.get(ORDER_ID);
+        String processedTimestamp = (String) orderJson.get(ORDER_PROCESSED_TIMESTAMP);
+
+        Order order = new Order(ecommerceId, processedTimestamp, user, products);
         return order;
     }
 

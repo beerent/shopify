@@ -50,3 +50,28 @@ ADD COLUMN `price` DOUBLE NOT NULL AFTER `description`;
 
 ALTER TABLE `shopify`.`order_product_map` 
 DROP INDEX `unique_entries` ;
+
+ALTER TABLE `shopify`.`users` 
+ADD COLUMN `phone_number` VARCHAR(20) NULL AFTER `email`;
+
+ALTER TABLE `shopify`.`users` 
+CHANGE COLUMN `added` `added` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ;
+
+ALTER TABLE `shopify`.`products` 
+CHANGE COLUMN `added` `added` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ;
+
+ALTER TABLE `shopify`.`users` 
+ADD UNIQUE INDEX `email_UNIQUE` (`email` ASC);
+
+ALTER TABLE `shopify`.`products` 
+DROP COLUMN `description`;
+
+ALTER TABLE `shopify`.`products` 
+ADD UNIQUE INDEX `name_UNIQUE` (`name` ASC);
+
+ALTER TABLE `shopify`.`orders` 
+ADD COLUMN `external_order_id` VARCHAR(45) NOT NULL AFTER `id`;
+
+ALTER TABLE `shopify`.`orders` 
+ADD UNIQUE INDEX `external_order_id_UNIQUE` (`external_order_id` ASC);
+;

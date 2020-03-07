@@ -27,6 +27,7 @@ public class FakeOrderParser {
     private static final String PRODUCT_ID = "id";
 
     private static final String ORDER_ID = "id";
+    private static final String ORDER_PROCESSED_TIMESTAMP = "date";
 
     public Orders ParseOrders(JSONObject obj) {
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
@@ -46,15 +47,16 @@ public class FakeOrderParser {
     }
 
     private Order ParseOrder(JSONObject orderJson) {
-        Long ecommerceId = (Long) orderJson.get(ORDER_ID);
-
         JSONObject userJson = (JSONObject) orderJson.get(USER);
         UserModel user = ParseUser(userJson);
 
         JSONArray productsJson = (JSONArray) orderJson.get(PRODUCTS);
         Products products = ParseProducts(productsJson);
 
-        Order order = new Order(user, products);
+        Long externalId = (Long) orderJson.get(ORDER_ID);
+        String processedTimestamp = (String) orderJson.get(ORDER_PROCESSED_TIMESTAMP);
+
+        Order order = new Order(externalId, processedTimestamp, user, products);
         return order;
     }
 
