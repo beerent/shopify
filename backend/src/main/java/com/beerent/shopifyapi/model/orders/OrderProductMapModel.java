@@ -12,12 +12,12 @@ public class OrderProductMapModel {
     @Column(name = "id", unique = true)
     private int id;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "order_id")
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "order_id")
     private OrderModel order;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "product_id")
+    @ManyToOne
+    @PrimaryKeyJoinColumn
     private ProductModel product;
 
     public OrderProductMapModel() {

@@ -13,5 +13,5 @@ public interface EcommerceCommunicator {
     /*
      * Retrieve all orders from the ecommerce endpoint
     */
-    public Orders FetchOrders();
+    public List<OrderModel> FetchOrders();
 }

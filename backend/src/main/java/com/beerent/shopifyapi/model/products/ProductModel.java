@@ -1,6 +1,10 @@
 package com.beerent.shopifyapi.model.products;
 
+import com.beerent.shopifyapi.model.orders.OrderProductMapModel;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="products")
@@ -16,13 +20,17 @@ public class ProductModel {
     @Column(name = "price")
     private Double price;
 
-    public ProductModel() {
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<OrderProductMapModel> orderProductMaps;
 
+    public ProductModel() {
+        this.orderProductMaps = new HashSet<OrderProductMapModel>();
     }
 
     public ProductModel(String name, Double price) {
         this.name = name;
         this.price = price;
+        this.orderProductMaps = new HashSet<OrderProductMapModel>();
     }
 
     public int getId() {
@@ -47,5 +55,13 @@ public class ProductModel {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Set<OrderProductMapModel> getOrderProductMaps() {
+        return orderProductMaps;
+    }
+
+    public void setOrderProductMaps(Set<OrderProductMapModel> orderProductMaps) {
+        this.orderProductMaps = orderProductMaps;
     }
 }

@@ -4,6 +4,8 @@ import com.beerent.shopifyapi.model.users.UserModel;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="orders")
@@ -20,16 +22,21 @@ public class OrderModel {
     private Date ordered;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn()
+    @PrimaryKeyJoinColumn(name = "user_id")
     private UserModel user;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private Set<OrderProductMapModel> orderProductMaps;
+
     public OrderModel() {
+        this.orderProductMaps = new HashSet<OrderProductMapModel>();
     }
 
     public OrderModel(long externalOrderId, Date ordered, UserModel user) {
         this.externalOrderId = externalOrderId;
         this.ordered = ordered;
         this.user = user;
+        this.orderProductMaps = new HashSet<OrderProductMapModel>();
     }
 
     public int getId() {
@@ -62,5 +69,13 @@ public class OrderModel {
 
     public void setOrdered(Date ordered) {
         this.ordered = ordered;
+    }
+
+    public Set<OrderProductMapModel> getOrderProductMaps() {
+        return orderProductMaps;
+    }
+
+    public void setOrderProductMaps(Set<OrderProductMapModel> orderProductMaps) {
+        this.orderProductMaps = orderProductMaps;
     }
 }

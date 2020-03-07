@@ -31,6 +31,7 @@ public class Orders {
         List<OrderProductMapModel> orderProductMaps = new ArrayList<OrderProductMapModel>();
         for (Order order : this.orders) {
             for (ProductModel product : order.getProducts().GetProducts()) {
+                OrderModel om = order.getOrder();
                 OrderProductMapModel map = new OrderProductMapModel(order.getOrder(), product);
                 orderProductMaps.add(map);
             }
