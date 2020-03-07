@@ -28,9 +28,6 @@ public class UserModel implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    //@OneToMany(cascade = CascadeType.ALL)
-    //private Set<OrderModel> orders;
-
     public UserModel() {}
 
     public UserModel(String firstName, String lastName, String email, String phoneNumber) {
@@ -38,7 +35,6 @@ public class UserModel implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        //this.orders = new HashSet<OrderModel>();
     }
 
     public int getId() {
@@ -80,16 +76,4 @@ public class UserModel implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-    /*public Set getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Set orders) {
-        this.orders = orders;
-    }
-
-    public void addOrder(OrderModel order) {
-        this.orders.add(order);
-    }*/
 }

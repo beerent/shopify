@@ -27,21 +27,13 @@ public class OrderModel {
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<ProductModel> products;
 
-    //@OneToMany(cascade = CascadeType.ALL)
-    //OrderProductMapModel orderProductMap;
-
-    //
-
     public OrderModel() {
-        //this.products = new HashSet<ProductModel>();
     }
 
     public OrderModel(long externalOrderId, Date ordered, UserModel user) {
         this.externalOrderId = externalOrderId;
         this.ordered = ordered;
         this.user = user;
-
-        //this.products = new HashSet<ProductModel>();
     }
 
     public int getId() {
@@ -58,7 +50,6 @@ public class OrderModel {
 
     public void setUser(UserModel user) {
         this.user = user;
-        //user.addOrder(this);
     }
 
     public long getExternalOrderId() {

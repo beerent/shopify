@@ -20,9 +20,6 @@ public class ProductModel {
     @Column(name = "price")
     private Double price;
 
-    //@OneToMany(cascade = CascadeType.ALL)
-    //private Set<OrderModel> orders;
-
     public ProductModel(String name, Double price) {
         this.name = name;
         this.price = price;
@@ -51,12 +48,4 @@ public class ProductModel {
     public void setPrice(Double price) {
         this.price = price;
     }
-
-    //public Set<OrderModel> getOrders() {
-    //    return orders;
-    //}
-
-    //public void setOrders(Set<OrderModel> orders) {
-    //    this.orders = orders;
-    //}
 }
