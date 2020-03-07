@@ -71,8 +71,8 @@ public class UserDao implements DaoInterface<User, String> {
     }
 
     public User findById(String id) {
-        User book = (User) getCurrentSession().get(User.class, id);
-        return book;
+        User user = (User) getCurrentSession().get(User.class, id);
+        return user;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class UserDao implements DaoInterface<User, String> {
 
     @SuppressWarnings("unchecked")
     public List<User> findAll() {
-        List<User> users = (List<User>) getCurrentSession().createQuery("from Book").list();
+        List<User> users = (List<User>) getCurrentSession().createQuery("from users").list();
         return users;
     }
 
