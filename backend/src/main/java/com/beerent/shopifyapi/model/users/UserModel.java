@@ -1,6 +1,10 @@
 package com.beerent.shopifyapi.model.users;
 
+import com.beerent.shopifyapi.model.orders.OrderModel;
+
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -24,6 +28,9 @@ public class UserModel implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<OrderModel> orders;
+
     public UserModel() {}
 
     public UserModel(String firstName, String lastName, String email, String phoneNumber) {
@@ -31,6 +38,7 @@ public class UserModel implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.orders = new HashSet<OrderModel>();
     }
 
     public int getId() {
@@ -71,5 +79,13 @@ public class UserModel implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Set getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set orders) {
+        this.orders = orders;
     }
 }

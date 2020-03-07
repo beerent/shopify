@@ -9,5 +9,6 @@ public class OrdersDao {
         new UserService().persist(orders.GetUsers());
         new ProductService().persist(orders.GetProducts());
         new OrderService().persist(orders.GetOrders());
+        //new OrderProductMapService().persist(orders.GetOrderProductMaps());
     }
 }

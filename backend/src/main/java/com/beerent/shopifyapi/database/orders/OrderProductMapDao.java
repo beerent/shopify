@@ -2,19 +2,18 @@ package com.beerent.shopifyapi.database.orders;
 
 import java.util.List;
 
-import com.beerent.shopifyapi.model.orders.OrderModel;
-import com.beerent.shopifyapi.model.products.ProductModel;
+import com.beerent.shopifyapi.model.orders.OrderProductMapModel;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-public class OrderDao {
+public class OrderProductMapDao {
 
     private Session currentSession;
     private Transaction currentTransaction;
 
-    public OrderDao() {
+    public OrderProductMapDao() {
     }
 
     public Session openCurrentSession() {
@@ -59,46 +58,32 @@ public class OrderDao {
         this.currentTransaction = currentTransaction;
     }
 
-    public void persist(OrderModel order) {
+    public void persist(OrderProductMapModel order) {
         getCurrentSession().save(order);
     }
 
-    public void update(OrderModel order) {
+    public void update(OrderProductMapModel order) {
         getCurrentSession().update(order);
     }
 
-
-    public OrderModel findByExternalOrderId(long id) {
-        List<OrderModel> orders = (List<OrderModel>) getCurrentSession()
-                .createQuery("from OrderModel where external_order_id = :id")
-                .setParameter("id", id).list();
-
-        if (orders.isEmpty()) {
-            return null;
-        }
-
-        return orders.get(0); // DANGER if email is not unique
-    }
-
-
-    public OrderModel findById(String id) {
-        OrderModel order = (OrderModel) getCurrentSession().get(OrderModel.class, id);
+    public OrderProductMapModel findById(String id) {
+        OrderProductMapModel order = (OrderProductMapModel) getCurrentSession().get(OrderProductMapModel.class, id);
         return order;
     }
 
-    public void delete(OrderModel order) {
+    public void delete(OrderProductMapModel order) {
         getCurrentSession().delete(order);
     }
 
     @SuppressWarnings("unchecked")
-    public List<OrderModel> findAll() {
-        List<OrderModel> orders = (List<OrderModel>) getCurrentSession().createQuery("from orders").list();
+    public List<OrderProductMapModel> findAll() {
+        List<OrderProductMapModel> orders = (List<OrderProductMapModel>) getCurrentSession().createQuery("from orders").list();
         return orders;
     }
 
     public void deleteAll() {
-        List<OrderModel> entityList = findAll();
-        for (OrderModel order : entityList) {
+        List<OrderProductMapModel> entityList = findAll();
+        for (OrderProductMapModel order : entityList) {
             delete(order);
         }
     }

@@ -2,8 +2,10 @@ package com.beerent.shopifyapi.model.containers;
 
 import com.beerent.shopifyapi.model.containers.Order;
 import com.beerent.shopifyapi.model.orders.OrderModel;
+import com.beerent.shopifyapi.model.orders.OrderProductMapModel;
 import com.beerent.shopifyapi.model.products.ProductModel;
 import com.beerent.shopifyapi.model.users.UserModel;
+import org.aspectj.weaver.ast.Or;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,18 @@ public class Orders {
         }
 
         return orders;
+    }
+
+    public List<OrderProductMapModel> GetOrderProductMaps() {
+        List<OrderProductMapModel> orderProductMaps = new ArrayList<OrderProductMapModel>();
+        for (Order order : this.orders) {
+            for (ProductModel product : order.getProducts().GetProducts()) {
+                OrderProductMapModel map = new OrderProductMapModel(order.getOrder(), product);
+                orderProductMaps.add(map);
+            }
+        }
+
+        return orderProductMaps;
     }
 
     public List<UserModel> GetUsers() {

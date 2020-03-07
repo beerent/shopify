@@ -83,9 +83,14 @@ ALTER TABLE `shopify`.`orders`
 CHANGE COLUMN `user_id` `user_id` INT(11) NOT NULL ,
 ADD INDEX `order_user_id_fk_idx` (`user_id` ASC);
 ;
+
 ALTER TABLE `shopify`.`orders` 
 ADD CONSTRAINT `order_user_id_fk`
   FOREIGN KEY (`user_id`)
   REFERENCES `shopify`.`users` (`id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+ALTER TABLE `shopify`.`order_product_map` 
+ADD COLUMN `id` INT(11) NOT NULL AUTO_INCREMENT FIRST,
+ADD PRIMARY KEY (`id`);

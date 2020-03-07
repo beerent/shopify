@@ -15,10 +15,13 @@ public class OrderService {
     public void persist(List<OrderModel> orders) {
         orderDao.openCurrentSessionwithTransaction();
 
-        for (OrderModel order : orders) {
-            //if  (orderDao.findByName(order.getName()) != null) {
-            //    continue;
-            //}
+        for (int i = 0; i < orders.size(); i++) {
+            OrderModel order = orders.get(i);
+            OrderModel existingModel = orderDao.findByExternalOrderId(order.getExternalOrderId());
+            if  (existingModel != null) {
+                orders.set(i, existingModel);
+                continue;
+            }
             orderDao.persist(order);
         }
 

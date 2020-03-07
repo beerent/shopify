@@ -21,15 +21,15 @@ public class OrderModel {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private UserModel user_id;
+    private UserModel user;
 
     public OrderModel() {
     }
 
-    public OrderModel(long externalOrderId, Date ordered, UserModel user_id) {
+    public OrderModel(long externalOrderId, Date ordered, UserModel user) {
         this.externalOrderId = externalOrderId;
         this.ordered = ordered;
-        this.user_id = user_id;
+        this.user = user;
     }
 
     public int getId() {
@@ -41,11 +41,11 @@ public class OrderModel {
     }
 
     public UserModel getUser() {
-        return user_id;
+        return user;
     }
 
-    public void setUser_id(UserModel user_id) {
-        this.user_id = user_id;
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 
     public long getExternalOrderId() {
