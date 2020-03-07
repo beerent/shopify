@@ -17,11 +17,6 @@ import java.util.List;
  * communicate specifically to an ecommerce fake.
  */
 public class FakeCommunicator implements EcommerceCommunicator {
-    FakeOrderParser orderParser;
-
-    public FakeCommunicator() {
-        this.orderParser = new FakeOrderParser();
-    }
     /*
      * Fetches all customer orders from ecommerce fake.
      *
@@ -32,7 +27,7 @@ public class FakeCommunicator implements EcommerceCommunicator {
         String jsonString = LoadJsonFromDisk();
         JSONObject jsonObject = StringToJson(jsonString);
 
-        return this.orderParser.ParseOrders(jsonObject);
+        return new FakeOrderParser().ParseOrders(jsonObject);
     }
 
     /*

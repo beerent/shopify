@@ -27,15 +27,11 @@ public class ShopifyCommunicator implements EcommerceCommunicator {
     private String store;
     private String version;
 
-    ShopifyOrderParser orderParser;
-
     public ShopifyCommunicator(String apiKey, String password, String store, String version) {
         this.apiKey = apiKey;
         this.password = password;
         this.store = store;
         this.version = version;
-
-        this.orderParser = new ShopifyOrderParser();
     }
 
     /*
@@ -49,7 +45,7 @@ public class ShopifyCommunicator implements EcommerceCommunicator {
         HttpEntity<String> request = GetHTTPEntity();
         ResponseEntity<String> response = ExecuteApiExchange(uri, HttpMethod.GET, request, String.class);
 
-        return this.orderParser.ParseOrders(ResponseToJson(response));
+        return new ShopifyOrderParser().ParseOrders(ResponseToJson(response));
     }
 
     private String GetApiUri() {
