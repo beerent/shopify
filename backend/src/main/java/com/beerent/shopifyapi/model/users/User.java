@@ -1,8 +1,7 @@
 package com.beerent.shopifyapi.model.users;
 
 import java.io.Serializable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,7 +11,6 @@ import javax.persistence.Table;
 @Table(name="users")
 public class User implements Serializable {
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true)
     private int id;
 
@@ -27,6 +25,8 @@ public class User implements Serializable {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    public User() {}
 
     public User(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;
