@@ -1,9 +1,6 @@
 package com.beerent.shopifyapi.ecommerce.fake;
 
-import com.beerent.shopifyapi.model.containers.Order;
-import com.beerent.shopifyapi.model.containers.Orders;
 import com.beerent.shopifyapi.model.orders.OrderModel;
-import com.beerent.shopifyapi.model.orders.OrderProductMapModel;
 import com.beerent.shopifyapi.model.products.ProductModel;
 import com.beerent.shopifyapi.model.containers.Products;
 import com.beerent.shopifyapi.model.users.UserModel;
@@ -55,15 +52,9 @@ public class FakeOrderParser {
         UserModel user = ParseUser(userJson);
 
         JSONArray productsJson = (JSONArray) orderJson.get(PRODUCTS);
-        Set<OrderProductMapModel> productMap = new HashSet<OrderProductMapModel>();
         OrderModel orderModel = new OrderModel();
 
         Products products = ParseProducts(productsJson);
-        for (ProductModel product : products.GetProducts()) {
-            OrderProductMapModel map = new OrderProductMapModel(orderModel, product);
-            productMap.add(map);
-        }
-        //orderModel.setOrderProductMaps(productMap);
 
         Long ecommerceId = (Long) orderJson.get(ORDER_ID);
         String processedTimestamp = (String) orderJson.get(ORDER_PROCESSED_TIMESTAMP);
@@ -74,8 +65,6 @@ public class FakeOrderParser {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        //orderModel.setUser(user);
         orderModel.setOrdered(date);
         orderModel.setExternalOrderId(ecommerceId);
 

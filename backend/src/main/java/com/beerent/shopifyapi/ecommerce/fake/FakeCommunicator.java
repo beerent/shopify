@@ -1,7 +1,6 @@
 package com.beerent.shopifyapi.ecommerce.fake;
 
 import com.beerent.shopifyapi.ecommerce.EcommerceCommunicator;
-import com.beerent.shopifyapi.model.containers.Orders;
 import com.beerent.shopifyapi.model.orders.OrderModel;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
