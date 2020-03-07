@@ -14,11 +14,11 @@ public class UserService {
 
     public void persist(List<UserModel> users) {
         userDao.openCurrentSessionwithTransaction();
-
-        for (UserModel user : users) {
+        for (int i = 0; i < users.size(); i++) {
+            UserModel user = users.get(i);
             UserModel existingUser = userDao.findByEmail(user.getEmail());
             if  (existingUser != null) {
-                user.setId(existingUser.getId());
+                users.set(i, existingUser);
                 continue;
             }
 

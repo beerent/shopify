@@ -21,22 +21,17 @@ public class OrderModel {
     @Column(name = "ordered")
     private Date ordered;
 
-    @ManyToOne
-    @PrimaryKeyJoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(columnDefinition="integer", name = "user_id")
     private UserModel user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private Set<OrderProductMapModel> orderProductMaps;
-
     public OrderModel() {
-        this.orderProductMaps = new HashSet<OrderProductMapModel>();
     }
 
     public OrderModel(long externalOrderId, Date ordered, UserModel user) {
         this.externalOrderId = externalOrderId;
         this.ordered = ordered;
         this.user = user;
-        this.orderProductMaps = new HashSet<OrderProductMapModel>();
     }
 
     public int getId() {
@@ -53,6 +48,7 @@ public class OrderModel {
 
     public void setUser(UserModel user) {
         this.user = user;
+        user.addOrder(this);
     }
 
     public long getExternalOrderId() {
@@ -69,13 +65,5 @@ public class OrderModel {
 
     public void setOrdered(Date ordered) {
         this.ordered = ordered;
-    }
-
-    public Set<OrderProductMapModel> getOrderProductMaps() {
-        return orderProductMaps;
-    }
-
-    public void setOrderProductMaps(Set<OrderProductMapModel> orderProductMaps) {
-        this.orderProductMaps = orderProductMaps;
     }
 }

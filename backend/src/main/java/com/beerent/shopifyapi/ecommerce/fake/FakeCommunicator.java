@@ -2,6 +2,7 @@ package com.beerent.shopifyapi.ecommerce.fake;
 
 import com.beerent.shopifyapi.ecommerce.EcommerceCommunicator;
 import com.beerent.shopifyapi.model.containers.Orders;
+import com.beerent.shopifyapi.model.orders.OrderModel;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -28,7 +29,7 @@ public class FakeCommunicator implements EcommerceCommunicator {
      * see EcommerceCommunicator::FetchOrders()
      */
     @Override
-    public Orders FetchOrders() {
+    public List<OrderModel> FetchOrders() {
         String jsonString = LoadJsonFromDisk();
         JSONObject jsonObject = StringToJson(jsonString);
 

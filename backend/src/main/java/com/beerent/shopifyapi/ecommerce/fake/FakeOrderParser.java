@@ -2,6 +2,8 @@ package com.beerent.shopifyapi.ecommerce.fake;
 
 import com.beerent.shopifyapi.model.containers.Order;
 import com.beerent.shopifyapi.model.containers.Orders;
+import com.beerent.shopifyapi.model.orders.OrderModel;
+import com.beerent.shopifyapi.model.orders.OrderProductMapModel;
 import com.beerent.shopifyapi.model.products.ProductModel;
 import com.beerent.shopifyapi.model.containers.Products;
 import com.beerent.shopifyapi.model.users.UserModel;
@@ -10,8 +12,7 @@ import org.json.simple.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 public class FakeOrderParser {
 
@@ -32,33 +33,41 @@ public class FakeOrderParser {
     private static final String ORDER_ID = "id";
     private static final String ORDER_PROCESSED_TIMESTAMP = "date";
 
-    public Orders ParseOrders(JSONObject obj) {
+    public List<OrderModel> ParseOrders(JSONObject obj) {
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
         return ParseOrders(ordersJson);
     }
 
-    private Orders ParseOrders(JSONArray ordersJson) {
-        ArrayList<Order> orders = new ArrayList<Order>();
+    private List<OrderModel> ParseOrders(JSONArray ordersJson) {
+        ArrayList<OrderModel> orders = new ArrayList<OrderModel>();
 
         for (int i = 0; i < ordersJson.size(); i++) {
             JSONObject orderJson = (JSONObject) ordersJson.get(i);
-            Order order = ParseOrder(orderJson);
+            OrderModel order = ParseOrder(orderJson);
             orders.add(order);
         }
 
-        return new Orders(orders);
+        return orders;
     }
 
-    private Order ParseOrder(JSONObject orderJson) {
+    private OrderModel ParseOrder(JSONObject orderJson) {
         JSONObject userJson = (JSONObject) orderJson.get(USER);
         UserModel user = ParseUser(userJson);
 
         JSONArray productsJson = (JSONArray) orderJson.get(PRODUCTS);
-        Products products = ParseProducts(productsJson);
+        Set<OrderProductMapModel> productMap = new HashSet<OrderProductMapModel>();
+        OrderModel orderModel = new OrderModel();
 
-        Long externalId = (Long) orderJson.get(ORDER_ID);
+        Products products = ParseProducts(productsJson);
+        for (ProductModel product : products.GetProducts()) {
+            OrderProductMapModel map = new OrderProductMapModel(orderModel, product);
+            productMap.add(map);
+        }
+        //orderModel.setOrderProductMaps(productMap);
+
+        Long ecommerceId = (Long) orderJson.get(ORDER_ID);
         String processedTimestamp = (String) orderJson.get(ORDER_PROCESSED_TIMESTAMP);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         try {
             date = formatter.parse(processedTimestamp);
@@ -66,8 +75,11 @@ public class FakeOrderParser {
             e.printStackTrace();
         }
 
-        Order order = new Order(externalId, date, user, products);
-        return order;
+        //orderModel.setUser(user);
+        orderModel.setOrdered(date);
+        orderModel.setExternalOrderId(ecommerceId);
+
+        return orderModel;
     }
 
     UserModel ParseUser(JSONObject userJson) {

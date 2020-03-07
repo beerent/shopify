@@ -13,11 +13,11 @@ public class OrderProductMapModel {
     private int id;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id")
     private OrderModel order;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn
+    @JoinColumn( name = "product_id")
     private ProductModel product;
 
     public OrderProductMapModel() {

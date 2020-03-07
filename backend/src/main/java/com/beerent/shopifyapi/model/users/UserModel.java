@@ -28,7 +28,7 @@ public class UserModel implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<OrderModel> orders;
 
     public UserModel() {}
@@ -87,5 +87,9 @@ public class UserModel implements Serializable {
 
     public void setOrders(Set orders) {
         this.orders = orders;
+    }
+
+    public void addOrder(OrderModel order) {
+        this.orders.add(order);
     }
 }

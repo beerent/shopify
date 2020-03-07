@@ -2,6 +2,7 @@ package com.beerent.shopifyapi.ecommerce.shopify;
 
 import com.beerent.shopifyapi.ecommerce.EcommerceCommunicator;
 import com.beerent.shopifyapi.model.containers.Orders;
+import com.beerent.shopifyapi.model.orders.OrderModel;
 import org.json.simple.parser.JSONParser;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.simple.JSONObject;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 /*
  * This implementation of an EcommerceCommunicator is used to
@@ -42,7 +45,7 @@ public class ShopifyCommunicator implements EcommerceCommunicator {
      * see EcommerceCommunicator::FetchOrders()
     */
     @Override
-    public Orders FetchOrders() {
+    public List<OrderModel> FetchOrders() {
         String uri = GetApiUri();
         HttpEntity<String> request = GetHTTPEntity();
         ResponseEntity<String> response = ExecuteApiExchange(uri, HttpMethod.GET, request, String.class);
