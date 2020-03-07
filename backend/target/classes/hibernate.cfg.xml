@@ -12,7 +12,7 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="show_sql">false</property>
         <property name="hibernate.current_session_context_class">thread</property>
-        <mapping class="com.beerent.shopifyapi.model.users.User"/>
-        <mapping class="com.beerent.shopifyapi.model.products.Product"/>
+        <mapping class="com.beerent.shopifyapi.model.users.UserModel"/>
+        <mapping class="com.beerent.shopifyapi.model.products.ProductModel"/>
     </session-factory>
 </hibernate-configuration>

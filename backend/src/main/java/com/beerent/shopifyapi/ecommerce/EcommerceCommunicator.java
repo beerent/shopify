@@ -1,6 +1,6 @@
 package com.beerent.shopifyapi.ecommerce;
 
-import com.beerent.shopifyapi.model.orders.Orders;
+import com.beerent.shopifyapi.model.containers.Orders;
 
 /*
  * Interface for communicating with some Ecommerce instance.

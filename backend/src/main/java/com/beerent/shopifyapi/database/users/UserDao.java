@@ -2,7 +2,7 @@ package com.beerent.shopifyapi.database.users;
 
 import java.util.List;
 
-import com.beerent.shopifyapi.model.users.User;
+import com.beerent.shopifyapi.model.users.UserModel;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -58,17 +58,17 @@ public class UserDao {
         this.currentTransaction = currentTransaction;
     }
 
-    public void persist(User user) {
+    public void persist(UserModel user) {
         getCurrentSession().save(user);
     }
 
-    public void update(User user) {
+    public void update(UserModel user) {
         getCurrentSession().update(user);
     }
 
-    public User findByEmail(String email) {
-        List<User> users = (List<User>) getCurrentSession()
-                .createQuery("from User where email = :email")
+    public UserModel findByEmail(String email) {
+        List<UserModel> users = (List<UserModel>) getCurrentSession()
+                .createQuery("from UserModel where email = :email")
                 .setParameter("email", email).list();
 
         if (users.isEmpty()) {
@@ -78,24 +78,24 @@ public class UserDao {
         return users.get(0); // DANGER if email is not unique
     }
 
-    public User findById(String id) {
-        User user = (User) getCurrentSession().get(User.class, id);
+    public UserModel findById(String id) {
+        UserModel user = (UserModel) getCurrentSession().get(UserModel.class, id);
         return user;
     }
 
-    public void delete(User entity) {
+    public void delete(UserModel entity) {
         getCurrentSession().delete(entity);
     }
 
     @SuppressWarnings("unchecked")
-    public List<User> findAll() {
-        List<User> users = (List<User>) getCurrentSession().createQuery("from users").list();
+    public List<UserModel> findAll() {
+        List<UserModel> users = (List<UserModel>) getCurrentSession().createQuery("from users").list();
         return users;
     }
 
     public void deleteAll() {
-        List<User> entityList = findAll();
-        for (User entity : entityList) {
+        List<UserModel> entityList = findAll();
+        for (UserModel entity : entityList) {
             delete(entity);
         }
     }

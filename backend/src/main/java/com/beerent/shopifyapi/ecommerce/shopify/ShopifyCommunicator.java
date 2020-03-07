@@ -1,7 +1,7 @@
 package com.beerent.shopifyapi.ecommerce.shopify;
 
 import com.beerent.shopifyapi.ecommerce.EcommerceCommunicator;
-import com.beerent.shopifyapi.model.orders.Orders;
+import com.beerent.shopifyapi.model.containers.Orders;
 import org.json.simple.parser.JSONParser;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.simple.JSONObject;

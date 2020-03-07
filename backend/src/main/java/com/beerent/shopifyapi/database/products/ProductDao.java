@@ -2,7 +2,7 @@ package com.beerent.shopifyapi.database.products;
 
 import java.util.List;
 
-import com.beerent.shopifyapi.model.products.Product;
+import com.beerent.shopifyapi.model.products.ProductModel;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -59,17 +59,17 @@ public class ProductDao {
         this.currentTransaction = currentTransaction;
     }
 
-    public void persist(Product product) {
+    public void persist(ProductModel product) {
         getCurrentSession().save(product);
     }
 
-    public void update(Product product) {
+    public void update(ProductModel product) {
         getCurrentSession().update(product);
     }
 
-    public Product findByName(String name) {
-        List<Product> products = (List<Product>) getCurrentSession()
-                .createQuery("from Product where name = :name")
+    public ProductModel findByName(String name) {
+        List<ProductModel> products = (List<ProductModel>) getCurrentSession()
+                .createQuery("from ProductModel where name = :name")
                 .setParameter("name", name).list();
 
         if (products.isEmpty()) {
@@ -79,24 +79,24 @@ public class ProductDao {
         return products.get(0); // DANGER if email is not unique
     }
 
-    public Product findById(String id) {
-        Product product = (Product) getCurrentSession().get(Product.class, id);
+    public ProductModel findById(String id) {
+        ProductModel product = (ProductModel) getCurrentSession().get(ProductModel.class, id);
         return product;
     }
 
-    public void delete(Product product) {
+    public void delete(ProductModel product) {
         getCurrentSession().delete(product);
     }
 
     @SuppressWarnings("unchecked")
-    public List<Product> findAll() {
-        List<Product> products = (List<Product>) getCurrentSession().createQuery("from products").list();
+    public List<ProductModel> findAll() {
+        List<ProductModel> products = (List<ProductModel>) getCurrentSession().createQuery("from products").list();
         return products;
     }
 
     public void deleteAll() {
-        List<Product> entityList = findAll();
-        for (Product product : entityList) {
+        List<ProductModel> entityList = findAll();
+        for (ProductModel product : entityList) {
             delete(product);
         }
     }

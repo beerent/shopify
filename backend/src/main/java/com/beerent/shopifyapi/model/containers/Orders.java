@@ -1,7 +1,8 @@
-package com.beerent.shopifyapi.model.orders;
+package com.beerent.shopifyapi.model.containers;
 
-import com.beerent.shopifyapi.model.products.Product;
-import com.beerent.shopifyapi.model.users.User;
+import com.beerent.shopifyapi.model.containers.Order;
+import com.beerent.shopifyapi.model.products.ProductModel;
+import com.beerent.shopifyapi.model.users.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +14,8 @@ public class Orders {
         this.orders = orders;
     }
 
-    public List<Order> GetOrders() {
-        return this.orders;
-    }
-
-    public List<User> GetUsers() {
-        List<User> users = new ArrayList<User>();
+    public List<UserModel> GetUsers() {
+        List<UserModel> users = new ArrayList<UserModel>();
 
         for (Order order : orders) {
             users.add(order.getUser());
@@ -27,8 +24,8 @@ public class Orders {
         return users;
     }
 
-    public List<Product> GetProducts() {
-        List<Product> allProducts = new ArrayList<Product>();
+    public List<ProductModel> GetProducts() {
+        List<ProductModel> allProducts = new ArrayList<ProductModel>();
 
         for (Order order : orders) {
             allProducts.addAll(order.getProducts().GetProducts());

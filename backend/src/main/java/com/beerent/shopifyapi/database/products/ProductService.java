@@ -1,7 +1,6 @@
 package com.beerent.shopifyapi.database.products;
 
-import com.beerent.shopifyapi.model.products.Product;
-import com.beerent.shopifyapi.model.users.User;
+import com.beerent.shopifyapi.model.products.ProductModel;
 
 import java.util.List;
 
@@ -13,10 +12,10 @@ public class ProductService {
         productDao = new ProductDao();
     }
 
-    public void persist(List<Product> products) {
+    public void persist(List<ProductModel> products) {
         productDao.openCurrentSessionwithTransaction();
 
-        for (Product product : products) {
+        for (ProductModel product : products) {
             if  (productDao.findByName(product.getName()) != null) {
                 continue;
             }
@@ -26,29 +25,29 @@ public class ProductService {
         productDao.closeCurrentSessionwithTransaction();
     }
 
-    public void persist(Product product) {
+    public void persist(ProductModel product) {
         productDao.openCurrentSessionwithTransaction();
         productDao.persist(product);
         productDao.closeCurrentSessionwithTransaction();
     }
 
-    public void update(Product product) {
+    public void update(ProductModel product) {
         productDao.openCurrentSessionwithTransaction();
         productDao.update(product);
         productDao.closeCurrentSessionwithTransaction();
     }
 
-    public Product findById(String id) {
+    public ProductModel findById(String id) {
         productDao.openCurrentSession();
-        Product product = productDao.findById(id);
+        ProductModel product = productDao.findById(id);
         productDao.closeCurrentSession();
 
         return product;
     }
 
-    public List<Product> findAll() {
+    public List<ProductModel> findAll() {
         productDao.openCurrentSession();
-        List<Product> products = productDao.findAll();
+        List<ProductModel> products = productDao.findAll();
         productDao.closeCurrentSession();
 
         return products;
@@ -56,7 +55,7 @@ public class ProductService {
 
     public void delete(String id) {
         productDao.openCurrentSessionwithTransaction();
-        Product product = productDao.findById(id);
+        ProductModel product = productDao.findById(id);
         productDao.delete(product);
         productDao.closeCurrentSessionwithTransaction();
     }

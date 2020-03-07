@@ -1,10 +1,10 @@
 package com.beerent.shopifyapi.ecommerce.fake;
 
-import com.beerent.shopifyapi.model.orders.Order;
-import com.beerent.shopifyapi.model.orders.Orders;
-import com.beerent.shopifyapi.model.products.Product;
-import com.beerent.shopifyapi.model.products.Products;
-import com.beerent.shopifyapi.model.users.User;
+import com.beerent.shopifyapi.model.containers.Order;
+import com.beerent.shopifyapi.model.containers.Orders;
+import com.beerent.shopifyapi.model.products.ProductModel;
+import com.beerent.shopifyapi.model.containers.Products;
+import com.beerent.shopifyapi.model.users.UserModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -49,7 +49,7 @@ public class FakeOrderParser {
         Long ecommerceId = (Long) orderJson.get(ORDER_ID);
 
         JSONObject userJson = (JSONObject) orderJson.get(USER);
-        User user = ParseUser(userJson);
+        UserModel user = ParseUser(userJson);
 
         JSONArray productsJson = (JSONArray) orderJson.get(PRODUCTS);
         Products products = ParseProducts(productsJson);
@@ -58,33 +58,33 @@ public class FakeOrderParser {
         return order;
     }
 
-    User ParseUser(JSONObject userJson) {
+    UserModel ParseUser(JSONObject userJson) {
         Long ecommerceId = (Long) userJson.get(USER_ID);
         String firstName = (String) userJson.get(USER_FIRST_NAME);
         String lastName = (String) userJson.get(USER_LAST_NAME);
         String email = (String) userJson.get(USER_EMAIL);
         String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
 
-        return new User(firstName, lastName, email, phoneNumber);
+        return new UserModel(firstName, lastName, email, phoneNumber);
     }
 
     Products ParseProducts(JSONArray productsJson) {
-        ArrayList<Product> products = new ArrayList<Product>();
+        ArrayList<ProductModel> products = new ArrayList<ProductModel>();
 
         for (int i = 0; i < productsJson.size(); i++) {
             JSONObject productJson = (JSONObject) productsJson.get(i);
-            Product product = ParseProduct(productJson);
+            ProductModel product = ParseProduct(productJson);
             products.add(product);
         }
 
         return new Products(products);
     }
 
-    Product ParseProduct(JSONObject productJson) {
+    ProductModel ParseProduct(JSONObject productJson) {
         Long ecommerceId = (Long) productJson.get(PRODUCT_ID);
         String name = (String) productJson.get(PRODUCT_NAME);
         Double price = (Double) productJson.get(PRODUCT_PRICE);
 
-        return new Product(name, price);
+        return new ProductModel(name, price);
     }
 }

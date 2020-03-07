@@ -1,8 +1,7 @@
 package com.beerent.shopifyapi.endpoints;
 
 import com.beerent.shopifyapi.database.orders.OrdersDao;
-import com.beerent.shopifyapi.model.orders.Orders;
-import org.json.simple.JSONObject;
+import com.beerent.shopifyapi.model.containers.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
