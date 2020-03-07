@@ -24,7 +24,7 @@ public class OrderModel {
     @JoinColumn(columnDefinition="integer", name = "user_id")
     private UserModel user;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<ProductModel> products;
 
     //@OneToMany(cascade = CascadeType.ALL)

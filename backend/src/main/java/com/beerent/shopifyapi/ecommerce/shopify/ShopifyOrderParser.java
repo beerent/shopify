@@ -2,11 +2,7 @@ package com.beerent.shopifyapi.ecommerce.shopify;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 import com.beerent.shopifyapi.model.orders.OrderModel;
 import com.beerent.shopifyapi.model.products.ProductModel;
@@ -33,10 +29,11 @@ public class ShopifyOrderParser {
     private static final String ORDER_PROCESSED_TIMESTAMP = "processed_at";
 
     private Map<Long, UserModel> users;
-
+    private Map<Long, ProductModel> products;
 
     public ShopifyOrderParser() {
         this.users = new HashMap<Long, UserModel>();
+        this.products = new HashMap<Long, ProductModel>();
     }
 
     public List<OrderModel> ParseOrders(JSONObject obj) {
@@ -60,24 +57,31 @@ public class ShopifyOrderParser {
     public OrderModel ParseOrder(JSONObject orderJson) {
         OrderModel order = new OrderModel();
 
-        JSONObject userJson = (JSONObject) orderJson.get(USER);
-        UserModel user = ParseUser(userJson);
-        order.setUser(user);
-
         Long ecommerceId = (Long) orderJson.get(ORDER_ID);
-        String processedTimestamp = (String) orderJson.get(ORDER_PROCESSED_TIMESTAMP);
+        UserModel user = ParseUser((JSONObject) orderJson.get(USER));
+        Date ordered = ParseDate((String)orderJson.get(ORDER_PROCESSED_TIMESTAMP));
+        Set<ProductModel> products = ParseProducts((JSONArray) orderJson.get(PRODUCTS));
+
+        order.setExternalOrderId(ecommerceId);
+        order.setUser(user);
+        order.setOrdered(ordered);
+        order.setProducts(products);
+
+        return order;
+    }
+
+    Date ParseDate(String dateStr) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
+
+        Date date = null;
+
         try {
-            date = formatter.parse(processedTimestamp);
+            date = formatter.parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        order.setOrdered(date);
-        order.setExternalOrderId(ecommerceId);
-
-        return order;
+        return date;
     }
 
     public UserModel ParseUser(JSONObject userJson) {
@@ -98,8 +102,11 @@ public class ShopifyOrderParser {
         return user;
     }
 
-    ArrayList<ProductModel> ParseProducts(JSONArray productsJson) {
-        ArrayList<ProductModel> products = new ArrayList<ProductModel>();
+    /*
+     * parse Products model
+     */
+    Set<ProductModel> ParseProducts(JSONArray productsJson) {
+        Set<ProductModel> products = new HashSet<ProductModel>();
 
         for (int i = 0; i < productsJson.size(); i++) {
             JSONObject productJson = (JSONObject) productsJson.get(i);
@@ -110,10 +117,23 @@ public class ShopifyOrderParser {
         return products;
     }
 
+    /*
+     * parse Product model
+     */
     ProductModel ParseProduct(JSONObject productJson) {
-        String name = (String) productJson.get(PRODUCT_NAME);
-        Double price = Double.parseDouble((String) productJson.get(PRODUCT_PRICE));
+        Long ecommerceId = (Long) productJson.get(PRODUCT_ID);
 
-        return new ProductModel(name, price);
+        ProductModel product = null;
+        if (this.products.containsKey(ecommerceId)) {
+            product = this.products.get(ecommerceId);
+        } else {
+            String name = (String) productJson.get(PRODUCT_NAME);
+            Double price = (Double) Double.parseDouble((String) productJson.get(PRODUCT_PRICE));
+
+            product = new ProductModel(name, price);
+            this.products.put(ecommerceId, product);
+        }
+
+        return product;
     }
 }
