@@ -53,7 +53,7 @@ public class ShopifyOrderParser {
         JSONArray productsJson = (JSONArray) orderJson.get(PRODUCTS);
         Products products = ParseProducts(productsJson);
 
-        Order order = new Order(ecommerceId, user, products);
+        Order order = new Order(user, products);
         return order;
     }
 

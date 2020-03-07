@@ -14,9 +14,15 @@ public class UserService {
 
     public void persist(List<User> users) {
         userDao.openCurrentSessionwithTransaction();
+
         for (User user : users) {
+            if  (userDao.findByEmail(user.getEmail()) != null) {
+                continue;
+            }
+
             userDao.persist(user);
         }
+
         userDao.closeCurrentSessionwithTransaction();
     }
 

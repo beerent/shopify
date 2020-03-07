@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.beerent.shopifyapi.database.DaoInterface;
 import com.beerent.shopifyapi.model.users.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 
 public class UserDao implements DaoInterface<User, String> {
 
@@ -69,9 +71,16 @@ public class UserDao implements DaoInterface<User, String> {
         getCurrentSession().update(user);
     }
 
-    public User findByEmail(String id) {
-        User user = (User) getCurrentSession().get(User.class, id);
-        return user;
+    public User findByEmail(String email) {
+        List<User> users = (List<User>) getCurrentSession()
+                .createQuery("from User where email = :email")
+                .setParameter("email", email).list();
+
+        if (users.isEmpty()) {
+            return null;
+        }
+
+        return users.get(0); // DANGER if email is not unique
     }
 
     public User findById(String id) {
