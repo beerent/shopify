@@ -1,5 +1,7 @@
 package com.beerent.shopifyapi.model.products;
 
+import com.beerent.shopifyapi.model.orders.OrderModel;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +19,9 @@ public class ProductModel {
 
     @Column(name = "price")
     private Double price;
+
+    //@OneToMany(cascade = CascadeType.ALL)
+    //private Set<OrderModel> orders;
 
     public ProductModel(String name, Double price) {
         this.name = name;
@@ -46,4 +51,12 @@ public class ProductModel {
     public void setPrice(Double price) {
         this.price = price;
     }
+
+    /*public Set<OrderModel> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<OrderModel> orders) {
+        this.orders = orders;
+    }*/
 }
