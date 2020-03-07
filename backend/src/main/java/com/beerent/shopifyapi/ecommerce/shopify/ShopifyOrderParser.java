@@ -1,6 +1,9 @@
 package com.beerent.shopifyapi.ecommerce.shopify;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.beerent.shopifyapi.model.containers.Order;
 import com.beerent.shopifyapi.model.containers.Orders;
@@ -55,8 +58,15 @@ public class ShopifyOrderParser {
 
         Long ecommerceId = (Long) orderJson.get(ORDER_ID);
         String processedTimestamp = (String) orderJson.get(ORDER_PROCESSED_TIMESTAMP);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        try {
+            date = formatter.parse(processedTimestamp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        Order order = new Order(ecommerceId, processedTimestamp, user, products);
+        Order order = new Order(ecommerceId, date, user, products);
         return order;
     }
 

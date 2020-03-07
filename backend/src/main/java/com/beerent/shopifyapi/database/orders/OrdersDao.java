@@ -8,5 +8,6 @@ public class OrdersDao {
     public void PersistOrders(Orders orders) {
         new UserService().persist(orders.GetUsers());
         new ProductService().persist(orders.GetProducts());
+        new OrderService().persist(orders.GetOrders());
     }
 }

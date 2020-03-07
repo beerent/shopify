@@ -16,7 +16,9 @@ public class ProductService {
         productDao.openCurrentSessionwithTransaction();
 
         for (ProductModel product : products) {
-            if  (productDao.findByName(product.getName()) != null) {
+            ProductModel existingProduct = productDao.findByName(product.getName());
+            if  (existingProduct != null) {
+                product.setId(existingProduct.getId());
                 continue;
             }
             productDao.persist(product);

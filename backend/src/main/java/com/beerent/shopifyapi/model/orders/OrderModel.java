@@ -1,6 +1,9 @@
 package com.beerent.shopifyapi.model.orders;
 
+import com.beerent.shopifyapi.model.users.UserModel;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="orders")
@@ -13,15 +16,20 @@ public class OrderModel {
     @Column(name = "external_order_id", unique = true)
     private long externalOrderId;
 
-    @Column(name = "user_id")
-    private int userId;
+    @Column(name = "ordered")
+    private Date ordered;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private UserModel user_id;
 
     public OrderModel() {
     }
 
-    public OrderModel(long externalOrderId, int user_id) {
+    public OrderModel(long externalOrderId, Date ordered, UserModel user_id) {
         this.externalOrderId = externalOrderId;
-        this.userId = user_id;
+        this.ordered = ordered;
+        this.user_id = user_id;
     }
 
     public int getId() {
@@ -32,12 +40,12 @@ public class OrderModel {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public UserModel getUser() {
+        return user_id;
     }
 
-    public void setUserId(int user_id) {
-        this.userId = user_id;
+    public void setUser_id(UserModel user_id) {
+        this.user_id = user_id;
     }
 
     public long getExternalOrderId() {
@@ -46,5 +54,13 @@ public class OrderModel {
 
     public void setExternalOrderId(long externalOrderId) {
         this.externalOrderId = externalOrderId;
+    }
+
+    public Date getOrdered() {
+        return ordered;
+    }
+
+    public void setOrdered(Date ordered) {
+        this.ordered = ordered;
     }
 }

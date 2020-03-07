@@ -8,7 +8,10 @@ import com.beerent.shopifyapi.model.users.UserModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FakeOrderParser {
 
@@ -55,8 +58,15 @@ public class FakeOrderParser {
 
         Long externalId = (Long) orderJson.get(ORDER_ID);
         String processedTimestamp = (String) orderJson.get(ORDER_PROCESSED_TIMESTAMP);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date date = new Date();
+        try {
+            date = formatter.parse(processedTimestamp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        Order order = new Order(externalId, processedTimestamp, user, products);
+        Order order = new Order(externalId, date, user, products);
         return order;
     }
 

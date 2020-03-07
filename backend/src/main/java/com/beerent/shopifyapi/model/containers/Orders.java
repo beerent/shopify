@@ -1,6 +1,7 @@
 package com.beerent.shopifyapi.model.containers;
 
 import com.beerent.shopifyapi.model.containers.Order;
+import com.beerent.shopifyapi.model.orders.OrderModel;
 import com.beerent.shopifyapi.model.products.ProductModel;
 import com.beerent.shopifyapi.model.users.UserModel;
 
@@ -12,6 +13,16 @@ public class Orders {
 
     public Orders(ArrayList<Order> orders) {
         this.orders = orders;
+    }
+
+    public List<OrderModel> GetOrders() {
+        List<OrderModel> orders = new ArrayList<OrderModel>();
+
+        for (Order order : this.orders) {
+            orders.add(order.getOrder());
+        }
+
+        return orders;
     }
 
     public List<UserModel> GetUsers() {

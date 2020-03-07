@@ -16,7 +16,9 @@ public class UserService {
         userDao.openCurrentSessionwithTransaction();
 
         for (UserModel user : users) {
-            if  (userDao.findByEmail(user.getEmail()) != null) {
+            UserModel existingUser = userDao.findByEmail(user.getEmail());
+            if  (existingUser != null) {
+                user.setId(existingUser.getId());
                 continue;
             }
 
