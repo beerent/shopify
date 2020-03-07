@@ -2,16 +2,13 @@ package com.beerent.shopifyapi.database.users;
 
 import java.util.List;
 
-import com.beerent.shopifyapi.database.DaoInterface;
 import com.beerent.shopifyapi.model.users.User;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Restrictions;
 
-public class UserDao implements DaoInterface<User, String> {
+public class UserDao {
 
     private Session currentSession;
     private Transaction currentTransaction;
@@ -61,12 +58,10 @@ public class UserDao implements DaoInterface<User, String> {
         this.currentTransaction = currentTransaction;
     }
 
-    @Override
     public void persist(User user) {
         getCurrentSession().save(user);
     }
 
-    @Override
     public void update(User user) {
         getCurrentSession().update(user);
     }
@@ -88,7 +83,6 @@ public class UserDao implements DaoInterface<User, String> {
         return user;
     }
 
-    @Override
     public void delete(User entity) {
         getCurrentSession().delete(entity);
     }
