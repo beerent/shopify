@@ -28,6 +28,7 @@ public class FetchOrdersEndpoint {
 
         OrderService orderService = new OrderService();
         orderService.persist(orders);
+        List<OrderModel> queriedOrders = orderService.findAll();
         return "fetching!\n";
     }
 }

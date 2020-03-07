@@ -92,8 +92,8 @@ public class OrderDao {
 
     @SuppressWarnings("unchecked")
     public List<OrderModel> findAll() {
-        List<OrderModel> orders = (List<OrderModel>) getCurrentSession().createQuery("from orders").list();
-        return orders;
+        return (List<OrderModel>) getCurrentSession().
+                createQuery("from OrderModel", OrderModel.class).list();
     }
 
     public void deleteAll() {

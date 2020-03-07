@@ -20,6 +20,8 @@ public class ProductModel {
     @Column(name = "price")
     private Double price;
 
+    public ProductModel() {}
+
     public ProductModel(String name, Double price) {
         this.name = name;
         this.price = price;
