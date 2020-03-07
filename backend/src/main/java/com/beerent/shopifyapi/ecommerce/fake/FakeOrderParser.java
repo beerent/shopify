@@ -66,7 +66,7 @@ public class FakeOrderParser {
         order.setExternalOrderId(ecommerceId);
         order.setUser(user);
         order.setOrdered(ordered);
-        //order.setProducts(products);
+        order.setProducts(products);
 
         return order;
     }

@@ -52,11 +52,11 @@ public class ProductModel {
         this.price = price;
     }
 
-    /*public Set<OrderModel> getOrders() {
-        return orders;
-    }
+    //public Set<OrderModel> getOrders() {
+    //    return orders;
+    //}
 
-    public void setOrders(Set<OrderModel> orders) {
-        this.orders = orders;
-    }*/
+    //public void setOrders(Set<OrderModel> orders) {
+    //    this.orders = orders;
+    //}
 }

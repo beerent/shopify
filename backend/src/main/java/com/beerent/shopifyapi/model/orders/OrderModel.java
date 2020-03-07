@@ -24,8 +24,13 @@ public class OrderModel {
     @JoinColumn(columnDefinition="integer", name = "user_id")
     private UserModel user;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<ProductModel> products;
+
     //@OneToMany(cascade = CascadeType.ALL)
     //OrderProductMapModel orderProductMap;
+
+    //
 
     public OrderModel() {
         //this.products = new HashSet<ProductModel>();
@@ -72,15 +77,11 @@ public class OrderModel {
         this.ordered = ordered;
     }
 
-    /*public Set<ProductModel> getProducts() {
+    public Set<ProductModel> getProducts() {
         return this.products;
     }
 
     public void setProducts(Set<ProductModel> products) {
         this.products = products;
     }
-
-    public OrderProductMapModel getOrderProductMap() {
-        return orderProductMap;
-    }*/
 }

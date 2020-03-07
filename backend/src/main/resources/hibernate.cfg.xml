@@ -16,6 +16,5 @@
         <mapping class="com.beerent.shopifyapi.model.users.UserModel"/>
         <mapping class="com.beerent.shopifyapi.model.products.ProductModel"/>
         <mapping class="com.beerent.shopifyapi.model.orders.OrderModel"/>
-        <mapping class="com.beerent.shopifyapi.model.orders.OrderProductMapModel"/>
     </session-factory>
 </hibernate-configuration>
