@@ -20,7 +20,7 @@ public class OrderModel {
     private Date ordered;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @PrimaryKeyJoinColumn()
     private UserModel user;
 
     public OrderModel() {
