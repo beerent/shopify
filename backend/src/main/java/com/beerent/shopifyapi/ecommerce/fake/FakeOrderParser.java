@@ -2,7 +2,6 @@ package com.beerent.shopifyapi.ecommerce.fake;
 
 import com.beerent.shopifyapi.model.orders.OrderModel;
 import com.beerent.shopifyapi.model.products.ProductModel;
-import com.beerent.shopifyapi.model.containers.Products;
 import com.beerent.shopifyapi.model.users.UserModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -30,12 +29,18 @@ public class FakeOrderParser {
     private static final String ORDER_ID = "id";
     private static final String ORDER_PROCESSED_TIMESTAMP = "date";
 
+    private Map<Long, UserModel> users;
+
+    public FakeOrderParser() {
+        this.users = new HashMap<Long, UserModel>();
+    }
+
     public List<OrderModel> ParseOrders(JSONObject obj) {
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
         return ParseOrders(ordersJson);
     }
 
-    private List<OrderModel> ParseOrders(JSONArray ordersJson) {
+    public List<OrderModel> ParseOrders(JSONArray ordersJson) {
         ArrayList<OrderModel> orders = new ArrayList<OrderModel>();
 
         for (int i = 0; i < ordersJson.size(); i++) {
@@ -47,14 +52,12 @@ public class FakeOrderParser {
         return orders;
     }
 
-    private OrderModel ParseOrder(JSONObject orderJson) {
+    public OrderModel ParseOrder(JSONObject orderJson) {
+        OrderModel order = new OrderModel();
+
         JSONObject userJson = (JSONObject) orderJson.get(USER);
         UserModel user = ParseUser(userJson);
-
-        JSONArray productsJson = (JSONArray) orderJson.get(PRODUCTS);
-        OrderModel orderModel = new OrderModel();
-
-        Products products = ParseProducts(productsJson);
+        order.setUser(user);
 
         Long ecommerceId = (Long) orderJson.get(ORDER_ID);
         String processedTimestamp = (String) orderJson.get(ORDER_PROCESSED_TIMESTAMP);
@@ -65,23 +68,32 @@ public class FakeOrderParser {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        orderModel.setOrdered(date);
-        orderModel.setExternalOrderId(ecommerceId);
 
-        return orderModel;
+        order.setOrdered(date);
+        order.setExternalOrderId(ecommerceId);
+
+        return order;
     }
 
-    UserModel ParseUser(JSONObject userJson) {
+    public UserModel ParseUser(JSONObject userJson) {
         Long ecommerceId = (Long) userJson.get(USER_ID);
-        String firstName = (String) userJson.get(USER_FIRST_NAME);
-        String lastName = (String) userJson.get(USER_LAST_NAME);
-        String email = (String) userJson.get(USER_EMAIL);
-        String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
 
-        return new UserModel(firstName, lastName, email, phoneNumber);
+        UserModel user = null;
+        if (this.users.containsKey(ecommerceId)) {
+            user = this.users.get(ecommerceId);
+        } else {
+            String firstName = (String) userJson.get(USER_FIRST_NAME);
+            String lastName = (String) userJson.get(USER_LAST_NAME);
+            String email = (String) userJson.get(USER_EMAIL);
+            String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
+            user = new UserModel(firstName, lastName, email, phoneNumber);
+            this.users.put(ecommerceId, user);
+        }
+
+        return user;
     }
 
-    Products ParseProducts(JSONArray productsJson) {
+    ArrayList<ProductModel> ParseProducts(JSONArray productsJson) {
         ArrayList<ProductModel> products = new ArrayList<ProductModel>();
 
         for (int i = 0; i < productsJson.size(); i++) {
@@ -90,13 +102,12 @@ public class FakeOrderParser {
             products.add(product);
         }
 
-        return new Products(products);
+        return products;
     }
 
     ProductModel ParseProduct(JSONObject productJson) {
-        Long ecommerceId = (Long) productJson.get(PRODUCT_ID);
         String name = (String) productJson.get(PRODUCT_NAME);
-        Double price = (Double) productJson.get(PRODUCT_PRICE);
+        Double price = Double.parseDouble((String) productJson.get(PRODUCT_PRICE));
 
         return new ProductModel(name, price);
     }

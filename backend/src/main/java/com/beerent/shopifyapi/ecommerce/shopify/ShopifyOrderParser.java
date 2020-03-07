@@ -10,7 +10,6 @@ import java.util.HashMap;
 
 import com.beerent.shopifyapi.model.orders.OrderModel;
 import com.beerent.shopifyapi.model.products.ProductModel;
-import com.beerent.shopifyapi.model.containers.Products;
 import com.beerent.shopifyapi.model.users.UserModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -42,11 +41,11 @@ public class ShopifyOrderParser {
 
     public List<OrderModel> ParseOrders(JSONObject obj) {
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
-        List<OrderModel> orders = ParseOrdersNew(ordersJson);
+        List<OrderModel> orders = ParseOrders(ordersJson);
         return orders;
     }
 
-    public List<OrderModel> ParseOrdersNew(JSONArray ordersJson) {
+    public List<OrderModel> ParseOrders(JSONArray ordersJson) {
         ArrayList<OrderModel> orders = new ArrayList<OrderModel>();
 
         for (int i = 0; i < ordersJson.size(); i++) {
@@ -99,7 +98,7 @@ public class ShopifyOrderParser {
         return user;
     }
 
-    Products ParseProducts(JSONArray productsJson) {
+    ArrayList<ProductModel> ParseProducts(JSONArray productsJson) {
         ArrayList<ProductModel> products = new ArrayList<ProductModel>();
 
         for (int i = 0; i < productsJson.size(); i++) {
@@ -108,7 +107,7 @@ public class ShopifyOrderParser {
             products.add(product);
         }
 
-        return new Products(products);
+        return products;
     }
 
     ProductModel ParseProduct(JSONObject productJson) {
