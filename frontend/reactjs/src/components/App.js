@@ -4,7 +4,7 @@ import Orders from "./Orders"
 
 class App extends Component {
   state = {
-    orders : {}
+    orders : []
   };
 
   componentDidMount() {
@@ -14,9 +14,15 @@ class App extends Component {
       this.setState({ orders : data.orders })
     })
     .catch(console.log)
+
+    this.setState({loaded : true})
   }
 
   render() {
+    if (this.state.orders.length === 0) {
+      return null;
+    }
+
     return (
       <Orders orders={this.state.orders} />
     );

@@ -4,12 +4,14 @@ import Order from "./Order"
 class Orders extends Component {
 
   render() {
+    const items = []
+
+    for (const [index, value] of [this.props.orders].entries()) {
+      items.push(<Order order={value} key={index} />)
+    }
+
     return (
-        <div>
-          <Order order={this.props.orders[0]} />
-          <Order order={this.props.orders[1]} />
-          <Order order={this.props.orders[2]} />
-        </div>
+        <div>{items}</div>
       )
   }
 }
