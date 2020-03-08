@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Order from "./Order"
+import "../css/button.css"
 
 class Orders extends Component {
   isComponentMounted = false;
@@ -71,7 +72,6 @@ class Orders extends Component {
     this.isComponentMounted = false;
   }
 
-
   EnableButtons() {
     document.getElementById("fetch_button").disabled = false;
     document.getElementById("delete_button").disabled = false;
@@ -90,15 +90,15 @@ class Orders extends Component {
         orderElements.push(<Order order={order} key={index} />)
       });
   }
-
     return (
       <div>
-        <div className="col text-center">
-          <div className="btn-group">
-            <button id="fetch_button" className="btn btn-default" className="btn btn-success" onClick={this.FetchOrders}>Fetch</button>
-            <button id="delete_button" className="btn btn-default" className="btn btn-danger" onClick={this.DeleteOrders}>Delete All</button>
-          </div> 
+        <div className="jumbotron text-center mb-0">
+          <h1>E-Commerce Dashboard</h1>
         </div>
+          <div className="text-center mt-4 mb-4">
+            <button id="fetch_button" className="btn" className="btn btn-success button-width mr-4" onClick={this.FetchOrders}>Fetch</button>
+            <button id="delete_button" className="btn" className="btn btn-danger button-width ml-4" onClick={this.DeleteOrders}>Delete All</button>
+          </div> 
 
         <div>{orderElements}</div>
         </div>

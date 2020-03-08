@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-class Order extends Component {
+class Product extends Component {
   render() {
     return (
-      <div className="card mb-3">
+      <div className="card">
       <div className="card-header">Order #{this.props.order.id}</div>
         <div className="card-body">
           <h5 className="card-title">{this.props.order.user.first_name + " " + this.props.order.user.last_name}</h5>
@@ -14,4 +14,4 @@ class Order extends Component {
   }
 }
 
-export default Order;
+export default Product;
