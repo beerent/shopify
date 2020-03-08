@@ -3,6 +3,17 @@ import React, { Component } from 'react';
 class Orders extends Component {
 
   render() {
+    var orders = [];
+    // = this.props.orders.orders;
+    orders.forEach(function(order){
+
+    });
+
+    //orders.orders.forEach(function(){
+    //  console.log("gi");
+    //});
+
+
     return (
       <div className="card">
         <div className="card-body">

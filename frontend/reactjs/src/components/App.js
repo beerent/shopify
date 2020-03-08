@@ -11,14 +11,14 @@ class App extends Component {
     fetch('http://localhost:8080/get')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ contacts: data })
+      this.setState({ orders : data })
     })
     .catch(console.log)
   }
 
   render() {
     return (
-      <Orders />
+      <Orders orders={this.state.orders} />
     );
   }
 }
