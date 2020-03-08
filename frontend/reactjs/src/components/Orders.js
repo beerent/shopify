@@ -9,22 +9,28 @@ class Orders extends Component {
   };
 
   GetOrders = () => {
-    this.DisableButtons();
+    var self = this;
+
+    self.DisableButtons();
 
     fetch('http://localhost:8080/get')
     .then(res => res.json())
     .then((data) => {
-      if (this.isComponentMounted) {
-        this.setState({ orders : data.orders })
+      if (self.isComponentMounted) {
+        self.setState({ orders : data.orders })
       }
-      this.EnableButtons();
+      self.EnableButtons();
     })
-    .catch(console.log)
+    .catch(function(){
+      self.EnableButtons();
+    })
 
   }
 
   FetchOrders = () => {
-    this.DisableButtons();
+    var self = this;
+
+    self.DisableButtons();
 
     fetch('http://localhost:8080/fetch', {
       method: 'POST',
@@ -33,12 +39,17 @@ class Orders extends Component {
       },
       body: JSON.stringify({})
     }).then(() => {
-      this.GetOrders();
-    });
+      self.GetOrders();
+    })
+    .catch(function(){
+      self.EnableButtons();
+    })
   }
 
   DeleteOrders = () => {
-    this.DisableButtons();
+    var self = this;
+
+    self.DisableButtons();
 
     fetch('http://localhost:8080/delete', {
       method: 'DELETE',
@@ -47,7 +58,7 @@ class Orders extends Component {
       },
       body: JSON.stringify({})
     }).then(() => {
-      this.GetOrders();
+      self.GetOrders();
     });
   }
 
