@@ -20,20 +20,22 @@ public class OrderModel {
     @Column(name = "ordered")
     private Date ordered;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(columnDefinition="integer", name = "user_id")
     private UserModel user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<ProductModel> products;
 
     public OrderModel() {
+        this.products = new HashSet<ProductModel>();
     }
 
     public OrderModel(long externalOrderId, Date ordered, UserModel user) {
         this.externalOrderId = externalOrderId;
         this.ordered = ordered;
         this.user = user;
+        this.products = new HashSet<ProductModel>();
     }
 
     public int getId() {
