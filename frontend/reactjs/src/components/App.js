@@ -7,7 +7,7 @@ class App extends Component {
     orders : []
   };
 
-  componentDidMount() {
+  GetOrders = () => {
     fetch('http://localhost:8080/get')
     .then(res => res.json())
     .then((data) => {
@@ -16,9 +16,37 @@ class App extends Component {
     .catch(console.log)
   }
 
+  FetchOrders = () => {
+    fetch('http://localhost:8080/fetch', {
+      method: 'POST',
+      headers: {
+        'Accept': '*/*',
+      },
+      body: JSON.stringify({})
+    }).then(() => {
+      this.GetOrders();
+    });
+  }
+
+  DeleteOrders = () => {
+    fetch('http://localhost:8080/delete', {
+      method: 'DELETE',
+      headers: {
+        'Accept': '*/*',
+      },
+      body: JSON.stringify({})
+    }).then(() => {
+      this.GetOrders();
+    });
+  }
+
+  componentDidMount() {
+    this.GetOrders()
+  }
+
   render() {
     return (
-      <Orders orders={this.state.orders} />
+      <Orders orders={this.state.orders} FetchOrders={this.FetchOrders} DeleteOrders={this.DeleteOrders} />
     );
   }
 }
