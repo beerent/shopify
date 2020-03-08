@@ -11,7 +11,7 @@ class App extends Component {
     fetch('http://localhost:8080/get')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ orders : data })
+      this.setState({ orders : data.orders })
     })
     .catch(console.log)
   }
