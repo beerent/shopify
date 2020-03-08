@@ -3,7 +3,6 @@ package com.beerent.shopifyapi.database.orders;
 import java.util.List;
 
 import com.beerent.shopifyapi.model.orders.OrderModel;
-import com.beerent.shopifyapi.model.products.ProductModel;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 
 public class OrderDao {
 
+    private SessionFactory sessionFactory;
     private Session currentSession;
     private Transaction currentTransaction;
 
@@ -30,17 +30,21 @@ public class OrderDao {
 
     public void closeCurrentSession() {
         currentSession.close();
+        sessionFactory.close();
     }
 
     public void closeCurrentSessionwithTransaction() {
         currentTransaction.commit();
         currentSession.close();
+        sessionFactory.close();
     }
 
-    private static SessionFactory getSessionFactory() {
-        Configuration configuration = new Configuration().configure();
-        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        return sessionFactory;
+    private SessionFactory getSessionFactory() {
+        if (this.sessionFactory == null || this.sessionFactory.isClosed()) {
+            this.sessionFactory = new Configuration().configure().buildSessionFactory();
+        }
+
+        return this.sessionFactory;
     }
 
     public Session getCurrentSession() {
