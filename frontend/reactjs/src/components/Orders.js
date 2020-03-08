@@ -6,9 +6,10 @@ class Orders extends Component {
   render() {
     const items = []
 
-    for (const [index, value] of [this.props.orders].entries()) {
-      items.push(<Order order={value} key={index} />)
-    }
+    this.props.orders.forEach(function(order, index){
+      items.push(<Order order={order} key={index} />)
+    })
+
 
     return (
         <div>{items}</div>
