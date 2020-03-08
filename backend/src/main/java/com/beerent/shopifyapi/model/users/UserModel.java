@@ -1,10 +1,6 @@
 package com.beerent.shopifyapi.model.users;
 
-import com.beerent.shopifyapi.model.orders.OrderModel;
-
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.*;
 
