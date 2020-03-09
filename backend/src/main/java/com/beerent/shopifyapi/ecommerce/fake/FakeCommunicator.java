@@ -47,7 +47,6 @@ public class FakeCommunicator implements EcommerceCommunicator {
             lines = Files.readAllLines(new File(filePath).toPath());
         } catch (IOException e) {
             e.printStackTrace();
-            System.exit(1);
         }
 
         return lines;
@@ -68,7 +67,6 @@ public class FakeCommunicator implements EcommerceCommunicator {
             obj = (JSONObject) new JSONParser().parse(s);
         } catch (ParseException e) {
             e.printStackTrace();
-            System.exit(1);
         }
 
         return obj;

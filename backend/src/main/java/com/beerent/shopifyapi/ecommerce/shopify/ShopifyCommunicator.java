@@ -85,7 +85,6 @@ public class ShopifyCommunicator implements EcommerceCommunicator {
             obj = (JSONObject) parser.parse(response.getBody());
         } catch (ParseException e) {
             e.printStackTrace();
-            System.exit(1);
         }
 
         return obj;
