@@ -1,7 +1,7 @@
 package com.beerent.shopifyapi.ecommerce.shopify;
 
 import com.beerent.shopifyapi.ecommerce.EcommerceCommunicator;
-import com.beerent.shopifyapi.model.orders.OrderModel;
+import com.beerent.shopifyapi.model.orders.Order;
 import org.json.simple.parser.JSONParser;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.simple.JSONObject;
@@ -40,7 +40,7 @@ public class ShopifyCommunicator implements EcommerceCommunicator {
      * see EcommerceCommunicator::FetchOrders()
     */
     @Override
-    public List<OrderModel> FetchOrders() {
+    public List<Order> FetchOrders() {
         String uri = GetApiUri();
         HttpEntity<String> request = GetHTTPEntity();
         ResponseEntity<String> response = ExecuteApiExchange(uri, HttpMethod.GET, request, String.class);

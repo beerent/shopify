@@ -13,9 +13,9 @@
         <property name="show_sql">false</property>
         <property name="hibernate.current_session_context_class">thread</property>
 
-        <mapping class="com.beerent.shopifyapi.model.users.UserModel"/>
-        <mapping class="com.beerent.shopifyapi.model.products.ProductModel"/>
-        <mapping class="com.beerent.shopifyapi.model.orders.OrderModel"/>
+        <mapping class="com.beerent.shopifyapi.model.users.User"/>
+        <mapping class="com.beerent.shopifyapi.model.products.Product"/>
+        <mapping class="com.beerent.shopifyapi.model.orders.Order"/>
         <mapping class="com.beerent.shopifyapi.model.orders.OrderProductMap"/>
     </session-factory>
 </hibernate-configuration>

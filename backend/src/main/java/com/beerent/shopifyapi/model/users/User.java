@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="users")
-public class UserModel implements Serializable {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
@@ -24,9 +24,9 @@ public class UserModel implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    public UserModel() {}
+    public User() {}
 
-    public UserModel(String firstName, String lastName, String email, String phoneNumber) {
+    public User(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

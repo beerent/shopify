@@ -1,13 +1,13 @@
 package com.beerent.shopifyapi.model.orders;
 
-import com.beerent.shopifyapi.model.users.UserModel;
+import com.beerent.shopifyapi.model.users.User;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
 @Table(name="orders")
-public class OrderModel {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
@@ -21,17 +21,17 @@ public class OrderModel {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(columnDefinition="integer", name = "user_id")
-    private UserModel user;
+    private User user;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     private Set<OrderProductMap> products;
 
-    public OrderModel() {
+    public Order() {
         this.products = new HashSet<OrderProductMap>();
     }
 
-    public OrderModel(long externalOrderId, Date ordered, UserModel user) {
+    public Order(long externalOrderId, Date ordered, User user) {
         this.externalOrderId = externalOrderId;
         this.ordered = ordered;
         this.user = user;
@@ -46,11 +46,11 @@ public class OrderModel {
         this.id = id;
     }
 
-    public UserModel getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserModel user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

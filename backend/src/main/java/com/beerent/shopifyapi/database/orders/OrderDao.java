@@ -2,7 +2,7 @@ package com.beerent.shopifyapi.database.orders;
 
 import java.util.List;
 
-import com.beerent.shopifyapi.model.orders.OrderModel;
+import com.beerent.shopifyapi.model.orders.Order;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -63,17 +63,16 @@ public class OrderDao {
         this.currentTransaction = currentTransaction;
     }
 
-    public void persist(OrderModel order) {
+    public void persist(Order order) {
         getCurrentSession().save(order);
     }
 
-    public void update(OrderModel order) {
+    public void update(Order order) {
         getCurrentSession().update(order);
     }
 
-
-    public OrderModel findByExternalOrderId(long id) {
-        List<OrderModel> orders = (List<OrderModel>) getCurrentSession()
+    public Order findByExternalOrderId(long id) {
+        List<Order> orders = (List<Order>) getCurrentSession()
                 .createQuery("from OrderModel where external_order_id = :id")
                 .setParameter("id", id).list();
 
@@ -84,25 +83,23 @@ public class OrderDao {
         return orders.get(0); // DANGER if email is not unique
     }
 
-
-    public OrderModel findById(String id) {
-        OrderModel order = (OrderModel) getCurrentSession().get(OrderModel.class, id);
+    public Order findById(String id) {
+        Order order = (Order) getCurrentSession().get(Order.class, id);
         return order;
     }
 
-    public void delete(OrderModel order) {
+    public void delete(Order order) {
         getCurrentSession().delete(order);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<OrderModel> findAll() {
-        return (List<OrderModel>) getCurrentSession().
-                createQuery("from OrderModel", OrderModel.class).list();
+    public List<Order> findAll() {
+        return (List<Order>) getCurrentSession().
+                createQuery("from OrderModel", Order.class).list();
     }
 
     public void deleteAll() {
-        List<OrderModel> entityList = findAll();
-        for (OrderModel order : entityList) {
+        List<Order> entityList = findAll();
+        for (Order order : entityList) {
             delete(order);
         }
     }

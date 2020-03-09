@@ -1,6 +1,6 @@
 package com.beerent.shopifyapi.ecommerce;
 
-import com.beerent.shopifyapi.model.orders.OrderModel;
+import com.beerent.shopifyapi.model.orders.Order;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ public interface EcommerceCommunicator {
     /*
      * Retrieve all orders from the ecommerce endpoint
     */
-    public List<OrderModel> FetchOrders();
+    public List<Order> FetchOrders();
 }

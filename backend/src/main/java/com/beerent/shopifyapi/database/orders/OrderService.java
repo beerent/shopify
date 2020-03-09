@@ -1,6 +1,6 @@
 package com.beerent.shopifyapi.database.orders;
 
-import com.beerent.shopifyapi.model.orders.OrderModel;
+import com.beerent.shopifyapi.model.orders.Order;
 
 import java.util.List;
 
@@ -12,12 +12,12 @@ public class OrderService {
         orderDao = new OrderDao();
     }
 
-    public void persist(List<OrderModel> orders) {
+    public void persist(List<Order> orders) {
         orderDao.openCurrentSessionwithTransaction();
 
         for (int i = 0; i < orders.size(); i++) {
-            OrderModel order = orders.get(i);
-            OrderModel existingModel = orderDao.findByExternalOrderId(order.getExternalOrderId());
+            Order order = orders.get(i);
+            Order existingModel = orderDao.findByExternalOrderId(order.getExternalOrderId());
             if  (existingModel != null) {
                 orders.set(i, existingModel);
                 continue;
@@ -28,29 +28,29 @@ public class OrderService {
         orderDao.closeCurrentSessionwithTransaction();
     }
 
-    public void persist(OrderModel order) {
+    public void persist(Order order) {
         orderDao.openCurrentSessionwithTransaction();
         orderDao.persist(order);
         orderDao.closeCurrentSessionwithTransaction();
     }
 
-    public void update(OrderModel order) {
+    public void update(Order order) {
         orderDao.openCurrentSessionwithTransaction();
         orderDao.update(order);
         orderDao.closeCurrentSessionwithTransaction();
     }
 
-    public OrderModel findById(String id) {
+    public Order findById(String id) {
         orderDao.openCurrentSession();
-        OrderModel order = orderDao.findById(id);
+        Order order = orderDao.findById(id);
         orderDao.closeCurrentSession();
 
         return order;
     }
 
-    public List<OrderModel> findAll() {
+    public List<Order> findAll() {
         orderDao.openCurrentSession();
-        List<OrderModel> orders = orderDao.findAll();
+        List<Order> orders = orderDao.findAll();
         orderDao.closeCurrentSession();
 
         return orders;
@@ -58,7 +58,7 @@ public class OrderService {
 
     public void delete(String id) {
         orderDao.openCurrentSessionwithTransaction();
-        OrderModel order = orderDao.findById(id);
+        Order order = orderDao.findById(id);
         orderDao.delete(order);
         orderDao.closeCurrentSessionwithTransaction();
     }

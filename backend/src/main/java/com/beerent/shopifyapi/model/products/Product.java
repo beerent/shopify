@@ -1,6 +1,5 @@
 package com.beerent.shopifyapi.model.products;
 
-import com.beerent.shopifyapi.model.orders.OrderModel;
 import com.beerent.shopifyapi.model.orders.OrderProductMap;
 
 import javax.persistence.*;
@@ -9,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="products")
-public class ProductModel {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
@@ -25,11 +24,11 @@ public class ProductModel {
     @JoinColumn(name = "product_id")
     private Set<OrderProductMap> products;
 
-    public ProductModel() {
+    public Product() {
         this.products = new HashSet<OrderProductMap>();
     }
 
-    public ProductModel(String name, Double price) {
+    public Product(String name, Double price) {
         this.name = name;
         this.price = price;
         this.products = new HashSet<OrderProductMap>();

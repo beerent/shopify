@@ -1,6 +1,6 @@
 package com.beerent.shopifyapi.model.orders;
 
-import com.beerent.shopifyapi.model.products.ProductModel;
+import com.beerent.shopifyapi.model.products.Product;
 
 import javax.persistence.*;
 
@@ -14,11 +14,11 @@ public class OrderProductMap {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
-    private OrderModel order;
+    private Order order;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    private ProductModel product;
+    private Product product;
 
     @Column(name = "quantity")
     private Long quantity;
@@ -27,7 +27,7 @@ public class OrderProductMap {
     public OrderProductMap() {
     }
 
-    public OrderProductMap(OrderModel order, ProductModel product, Long quantity) {
+    public OrderProductMap(Order order, Product product, Long quantity) {
         this.order = order;
         this.product = product;
         this.quantity = quantity;
@@ -37,19 +37,19 @@ public class OrderProductMap {
         return id;
     }
 
-    public OrderModel getOrder() {
+    public Order getOrder() {
         return order;
     }
 
-    public void setOrder(OrderModel order) {
+    public void setOrder(Order order) {
         this.order = order;
     }
 
-    public ProductModel getProduct() {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProduct(ProductModel product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 

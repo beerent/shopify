@@ -1,7 +1,6 @@
 package com.beerent.shopifyapi.model.orders;
 
-import com.beerent.shopifyapi.model.products.ProductModel;
-import com.beerent.shopifyapi.model.users.UserModel;
+import com.beerent.shopifyapi.model.users.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -9,11 +8,11 @@ import java.util.List;
 import java.util.Set;
 
 public class OrderJsonUtil {
-    public JSONObject toJson(List<OrderModel> orders) {
+    public JSONObject toJson(List<Order> orders) {
         JSONObject json = new JSONObject();
 
         JSONArray ordersJson = new JSONArray();
-        for (OrderModel order : orders) {
+        for (Order order : orders) {
             JSONObject orderJson = orderToJson(order);
             ordersJson.add(orderJson);
         }
@@ -22,7 +21,7 @@ public class OrderJsonUtil {
         return json;
     }
 
-    private JSONObject orderToJson(OrderModel order) {
+    private JSONObject orderToJson(Order order) {
         JSONObject orderJson = new JSONObject();
 
         orderJson.put("id", order.getId());
@@ -34,7 +33,7 @@ public class OrderJsonUtil {
         return orderJson;
     }
 
-    private JSONObject userToJson(UserModel user) {
+    private JSONObject userToJson(User user) {
         JSONObject userJson = new JSONObject();
 
         userJson.put("id", user.getId());
