@@ -68,7 +68,6 @@ public class ShopifyOrderParser {
         Set<Pair<ProductModel, Long>> products = ParseProducts((JSONArray) orderJson.get(PRODUCTS));
 
         Set<OrderProductMap> orderProductMap = new HashSet<OrderProductMap>();
-
         for (Pair<ProductModel, Long> product : products) {
             OrderProductMap opr = new OrderProductMap(order, product.getKey(), product.getValue());
             product.getKey().addOrderProduct(opr);

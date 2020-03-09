@@ -29,7 +29,7 @@ public class OrderJsonUtil {
         orderJson.put("user", userToJson(order.getUser()));
         orderJson.put("external_order_id", order.getExternalOrderId());
         orderJson.put("date_ordered", ""+order.getOrdered());
-        //orderJson.put("products", productsToJson(order.getProducts()));
+        orderJson.put("products", productsToJson(order.getProducts()));
 
         return orderJson;
     }
@@ -46,14 +46,15 @@ public class OrderJsonUtil {
         return userJson;
     }
 
-    private JSONArray productsToJson(Set<ProductModel> products) {
+    private JSONArray productsToJson(Set<OrderProductMap> products) {
         JSONArray productsJson = new JSONArray();
 
-        for (ProductModel product : products) {
+        for (OrderProductMap product : products) {
             JSONObject productJson = new JSONObject();
             productJson.put("id", product.getId());
-            productJson.put("name", product.getName());
-            productJson.put("price", product.getPrice());
+            productJson.put("name", product.getProduct().getName());
+            productJson.put("price", product.getProduct().getPrice());
+            productJson.put("quantity", product.getQuantity());
             productsJson.add(productJson);
         }
 
