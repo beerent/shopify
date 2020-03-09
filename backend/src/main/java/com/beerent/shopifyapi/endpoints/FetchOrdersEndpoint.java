@@ -15,14 +15,17 @@ public class FetchOrdersEndpoint {
     private IEcommerceOrdersService eCommerceOrdersService;
 
     @Autowired
-    FetchOrdersEndpoint(IEcommerceOrdersService communicator) {
+    private Boolean updateOrders;
+
+    @Autowired
+    FetchOrdersEndpoint(IEcommerceOrdersService communicator, Boolean updateOrders) {
         this.eCommerceOrdersService = communicator;
     }
 
     @PostMapping(value = "/v1/orders/fetch")
     public ResponseEntity Fetch() {
         List<Order> orders = eCommerceOrdersService.FetchOrders();
-        OrderService orderService = new OrderService();
+        OrderService orderService = new OrderService(this.updateOrders);
         orderService.persist(orders);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

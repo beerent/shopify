@@ -31,6 +31,8 @@ public class Config {
     private static final String ECOMMERCE_PROPERTY_SHOPIFY_STORE = "shopify_store";
     private static final String ECOMMERCE_PROPERTY_SHOPIFY_VERSION = "shopify_version";
 
+    private static final String UPDATE_ORDERS = "update_orders";
+
     private Properties properties;
 
     public Config() {
@@ -94,5 +96,10 @@ public class Config {
                 LOGGER.info("using [default] as ecommerce order parser");
                 return new FakeOrderParser();
         }
+    }
+
+    @Bean
+    public Boolean updateOrders() {
+        return this.properties.getProperty(UPDATE_ORDERS).equals("true");
     }
 }

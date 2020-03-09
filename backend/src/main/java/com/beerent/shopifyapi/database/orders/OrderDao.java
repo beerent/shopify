@@ -64,7 +64,7 @@ public class OrderDao {
     }
 
     public void persist(Order order) {
-        getCurrentSession().save(order);
+        getCurrentSession().saveOrUpdate(order);
     }
 
     public void update(Order order) {
@@ -83,7 +83,7 @@ public class OrderDao {
         return orders.get(0);
     }
 
-    public Order findById(String id) {
+    public Order findById(Integer id) {
         Order order = (Order) getCurrentSession().get(Order.class, id);
         return order;
     }

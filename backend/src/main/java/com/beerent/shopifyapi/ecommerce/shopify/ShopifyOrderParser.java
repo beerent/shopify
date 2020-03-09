@@ -21,15 +21,15 @@ public class ShopifyOrderParser implements IEcommerceOrderParser {
     private static final String USER_LAST_NAME = "last_name";
     private static final String USER_EMAIL = "email";
     private static final String USER_PHONE_NUMBER = "phone";
-    private static final String USER_ID = "id";
+    private static final String USER_EXTERNAL_ID = "id";
 
     private static final String PRODUCTS = "line_items";
     private static final String PRODUCT_NAME = "title";
     private static final String PRODUCT_QUANTITY = "quantity";
     private static final String PRODUCT_PRICE = "price";
-    private static final String PRODUCT_ID = "id";
+    private static final String PRODUCT_EXTERNAL_ID = "id";
 
-    private static final String ORDER_ID = "id";
+    private static final String ORDER_EXTERNALID = "id";
     private static final String ORDER_PROCESSED_TIMESTAMP = "processed_at";
 
     @Override
@@ -100,12 +100,13 @@ public class ShopifyOrderParser implements IEcommerceOrderParser {
     }
 
     private User createUser(JSONObject userJson) {
+        String externalId = (String) userJson.get(USER_EXTERNAL_ID);
         String firstName = (String) userJson.get(USER_FIRST_NAME);
         String lastName = (String) userJson.get(USER_LAST_NAME);
         String email = (String) userJson.get(USER_EMAIL);
         String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
 
-        return new User(firstName, lastName, email, phoneNumber);
+        return new User(externalId, firstName, lastName, email, phoneNumber);
     }
 
     /*
@@ -144,9 +145,10 @@ public class ShopifyOrderParser implements IEcommerceOrderParser {
      * can cache products if creation is redundant/ expensive.
      */
     private Product createProduct(JSONObject productJson) {
+        String externalId = (String) productJson.get(PRODUCT_EXTERNAL_ID);
         String name = (String) productJson.get(PRODUCT_NAME);
         Double price = (Double) Double.parseDouble((String) productJson.get(PRODUCT_PRICE));
 
-        return new Product(name, price);
+        return new Product(externalId, name, price);
     }
 }

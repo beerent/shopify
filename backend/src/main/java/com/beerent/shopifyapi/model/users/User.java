@@ -12,6 +12,9 @@ public class User implements Serializable {
     @Column(name = "id", unique = true)
     private int id;
 
+    @Column(name = "external_id", unique = true)
+    private String externalId;
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -26,7 +29,8 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(String firstName, String lastName, String email, String phoneNumber) {
+    public User(String externalId, String firstName, String lastName, String email, String phoneNumber) {
+        this.externalId = externalId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -39,6 +43,14 @@ public class User implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     public String getFirstName() {
@@ -70,6 +82,13 @@ public class User implements Serializable {
     }
 
     public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void update(User user) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = user.email;
         this.phoneNumber = phoneNumber;
     }
 }

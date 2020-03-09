@@ -60,4 +60,9 @@ public class OrderProductMap {
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
+
+    public void update(OrderProductMap newProduct) {
+        this.quantity = newProduct.getQuantity();
+        this.product.update(newProduct.getProduct());
+    }
 }

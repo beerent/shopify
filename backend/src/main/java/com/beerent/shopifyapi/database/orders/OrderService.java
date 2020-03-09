@@ -1,6 +1,7 @@
 package com.beerent.shopifyapi.database.orders;
 
 import com.beerent.shopifyapi.model.orders.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -8,20 +9,32 @@ public class OrderService {
 
     private static OrderDao orderDao;
 
+    private Boolean updateOrders;
+
     public OrderService() {
+        this.updateOrders = false;
+    }
+
+    public OrderService(Boolean updateOrders) {
         orderDao = new OrderDao();
+        this.updateOrders = updateOrders;
     }
 
     public void persist(List<Order> orders) {
         orderDao.openCurrentSessionwithTransaction();
 
         for (int i = 0; i < orders.size(); i++) {
-            Order order = orders.get(i);
+             Order order = orders.get(i);
             Order existingModel = orderDao.findByExternalOrderId(order.getExternalOrderId());
-            if  (existingModel != null) {
-                orders.set(i, existingModel);
-                continue;
+
+            if (existingModel != null) {
+                if (this.updateOrders) {
+                    existingModel.update(order);
+                }
+
+                order = existingModel;
             }
+
             orderDao.persist(order);
         }
 
@@ -40,7 +53,7 @@ public class OrderService {
         orderDao.closeCurrentSessionwithTransaction();
     }
 
-    public Order findById(String id) {
+    public Order findById(Integer id) {
         orderDao.openCurrentSession();
         Order order = orderDao.findById(id);
         orderDao.closeCurrentSession();
@@ -56,7 +69,7 @@ public class OrderService {
         return orders;
     }
 
-    public void delete(String id) {
+    public void delete(Integer id) {
         orderDao.openCurrentSessionwithTransaction();
         Order order = orderDao.findById(id);
         orderDao.delete(order);
