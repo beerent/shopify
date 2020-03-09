@@ -73,14 +73,14 @@ public class OrderDao {
 
     public Order findByExternalOrderId(long id) {
         List<Order> orders = (List<Order>) getCurrentSession()
-                .createQuery("from OrderModel where external_order_id = :id")
+                .createQuery("from Order where external_order_id = :id")
                 .setParameter("id", id).list();
 
         if (orders.isEmpty()) {
             return null;
         }
 
-        return orders.get(0); // DANGER if email is not unique
+        return orders.get(0);
     }
 
     public Order findById(String id) {
@@ -94,7 +94,7 @@ public class OrderDao {
 
     public List<Order> findAll() {
         return (List<Order>) getCurrentSession().
-                createQuery("from OrderModel", Order.class).list();
+                createQuery("from Order", Order.class).list();
     }
 
     public void deleteAll() {
