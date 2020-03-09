@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 
 class Order extends Component {
 
-  formatPrice(price) {
-    return price.toFixed(2);
-  }
-
-
   render() {
     const productElements = []
     this.props.order.products.forEach(function(product, index){
