@@ -18,7 +18,7 @@ public class FetchOrdersEndpoint {
         this.eCommerceCommunicator = communicator;
     }
 
-    @RequestMapping(value = "/fetch", method = RequestMethod.POST)
+    @PostMapping(value = "/v1/orders/fetch")
     public ResponseEntity Fetch() {
         List<Order> orders = eCommerceCommunicator.FetchOrders();
         OrderService orderService = new OrderService();

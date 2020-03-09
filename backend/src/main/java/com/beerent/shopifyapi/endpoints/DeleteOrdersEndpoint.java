@@ -2,14 +2,13 @@ package com.beerent.shopifyapi.endpoints;
 
 import com.beerent.shopifyapi.database.orders.OrderService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @RestController
 public class DeleteOrdersEndpoint {
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/v1/orders")
     public ResponseEntity Delete() {
         new OrderService().deleteAll();
         return ResponseEntity.ok().build();
