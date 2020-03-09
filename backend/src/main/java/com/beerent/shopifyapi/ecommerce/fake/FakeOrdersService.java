@@ -1,6 +1,6 @@
 package com.beerent.shopifyapi.ecommerce.fake;
 
-import com.beerent.shopifyapi.ecommerce.EcommerceCommunicator;
+import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersService;
 import com.beerent.shopifyapi.model.orders.Order;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,7 +16,7 @@ import java.util.List;
  * This implementation of an EcommerceCommunicator is used to
  * communicate specifically to an ecommerce fake.
  */
-public class FakeCommunicator implements EcommerceCommunicator {
+public class FakeOrdersService implements IEcommerceOrdersService {
     /*
      * Fetches all customer orders from ecommerce fake.
      *

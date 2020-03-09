@@ -1,6 +1,6 @@
 package com.beerent.shopifyapi.ecommerce.shopify;
 
-import com.beerent.shopifyapi.ecommerce.EcommerceCommunicator;
+import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersService;
 import com.beerent.shopifyapi.model.orders.Order;
 import org.json.simple.parser.JSONParser;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -18,7 +18,7 @@ import java.util.List;
  * This implementation of an EcommerceCommunicator is used to
  * communicate specifically to Shopify.
 */
-public class ShopifyCommunicator implements EcommerceCommunicator {
+public class ShopifyOrdersService implements IEcommerceOrdersService {
     private static final String FETCH_ENDPOINT = "orders";
 
     //required fields for sending Shopify API requests.
@@ -27,7 +27,7 @@ public class ShopifyCommunicator implements EcommerceCommunicator {
     private String store;
     private String version;
 
-    public ShopifyCommunicator(String apiKey, String password, String store, String version) {
+    public ShopifyOrdersService(String apiKey, String password, String store, String version) {
         this.apiKey = apiKey;
         this.password = password;
         this.store = store;

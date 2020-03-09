@@ -3,6 +3,7 @@ package com.beerent.shopifyapi.endpoints;
 import com.beerent.shopifyapi.database.orders.OrderService;
 import com.beerent.shopifyapi.model.orders.OrderJsonUtil;
 import com.beerent.shopifyapi.model.orders.Order;
+import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,9 @@ public class GetOrdersEndpoint {
     @GetMapping(value = "/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity Get() {
         List<Order> orders = new OrderService().findAll();
-        String responseJson = new OrderJsonUtil().toJson(orders).toJSONString();
+        JSONObject ordersJson = new OrderJsonUtil().toJson(orders);
+        String ordersString = ordersJson.toJSONString();
 
-        return ResponseEntity.ok().body(responseJson);
+        return ResponseEntity.ok().body(ordersString);
     }
 }

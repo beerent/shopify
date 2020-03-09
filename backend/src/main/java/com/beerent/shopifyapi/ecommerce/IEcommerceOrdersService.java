@@ -1,7 +1,6 @@
 package com.beerent.shopifyapi.ecommerce;
 
 import com.beerent.shopifyapi.model.orders.Order;
-
 import java.util.List;
 
 /*
@@ -10,8 +9,7 @@ import java.util.List;
  * This interface is used to force Specific ecommerce communicators
  * to conform to the same API.
 */
-public interface EcommerceCommunicator {
-
+public interface IEcommerceOrdersService {
     /*
      * Retrieve all orders from the ecommerce endpoint
     */
