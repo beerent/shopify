@@ -113,8 +113,8 @@ class Orders extends Component {
         </div>
         
         <div className="text-center mt-4 mb-4">
-          <button id="fetch_button" className="btn" className="btn btn-success button-width mr-4" onClick={this.FetchOrders}>Fetch</button>
-          <button id="delete_button" className="btn" className="btn btn-danger button-width ml-4" onClick={this.DeleteOrders}>Delete All</button>
+          <button id="fetch_button" className="btn btn-success button-width mr-4" onClick={this.FetchOrders}>Fetch</button>
+          <button id="delete_button" className="btn btn-danger button-width ml-4" onClick={this.DeleteOrders}>Delete All</button>
         </div> 
 
         <div id="loading_symbol">
