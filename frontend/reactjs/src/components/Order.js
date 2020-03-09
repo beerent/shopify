@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 class Order extends Component {
 
+  formatPrice(price) {
+    return price.toFixed(2);
+  }
+
 
   render() {
     const productElements = []
@@ -11,7 +15,7 @@ class Order extends Component {
           <div className="row container">
           <div className="col-md-5"><span className="float-left">(x{product.quantity}) {product.name}</span></div>
           <div className="col-md-4"><span className="float-right">${product.price} x {product.quantity}</span></div>
-          <div className="col-md-3"><span className="float-right">${product.price * product.quantity}</span></div>
+          <div className="col-md-3"><span className="float-right">${(product.price * product.quantity).toFixed(2)}</span></div>
           </div>
         </li>)
     });
@@ -24,7 +28,7 @@ class Order extends Component {
       <li className="list-group-item" key="totalId">
         <div className="row container">
         <div className="col-md-6"></div>
-        <div className="col-md-6"><span className="float-right"><b>Total</b> ${total}</span></div>
+        <div className="col-md-6"><span className="float-right"><b>Total</b> ${total.toFixed(2)}</span></div>
         </div>
       </li>)
 
