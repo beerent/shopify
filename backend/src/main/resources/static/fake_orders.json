@@ -40,7 +40,8 @@
       {
         "name" : "Telescope Carrying Case",
         "price" : 120.00,
-        "id" : 2
+        "id" : 2,
+        "quantity" : 5
       }]
   },
   {
@@ -57,7 +58,8 @@
       {
         "name" : "10 in. Dobsonian Telescope",
         "price" : 900.00,
-        "id" : 4
+        "id" : 4,
+        "quantity" : 18
       }]
   }
 ]
