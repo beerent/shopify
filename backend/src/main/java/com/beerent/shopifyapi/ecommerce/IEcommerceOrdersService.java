@@ -13,5 +13,5 @@ public interface IEcommerceOrdersService {
     /*
      * Retrieve all orders from the ecommerce endpoint
     */
-    public List<Order> FetchOrders();
+    List<Order> FetchOrders();
 }

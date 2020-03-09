@@ -1,8 +1,11 @@
 package com.beerent.shopifyapi.configuration;
 
+import com.beerent.shopifyapi.ecommerce.IEcommerceOrderParser;
 import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersService;
 
+import com.beerent.shopifyapi.ecommerce.fake.FakeOrderParser;
 import com.beerent.shopifyapi.ecommerce.fake.FakeOrdersService;
+import com.beerent.shopifyapi.ecommerce.shopify.ShopifyOrderParser;
 import com.beerent.shopifyapi.ecommerce.shopify.ShopifyOrdersService;
 
 import org.slf4j.Logger;
@@ -78,6 +81,18 @@ public class Config {
             default:
                 LOGGER.info("using [default] as ecommerce communicator");
                 return new FakeOrdersService();
+        }
+    }
+
+    @Bean
+    public IEcommerceOrderParser eCommerceOrderParser() {
+        switch(this.properties.getProperty(ECOMMERCE_PROPERTY)) {
+            case ECOMMERCE_PROPERTY_SHOPIFY:
+                LOGGER.info("using [" + ECOMMERCE_PROPERTY_SHOPIFY + "] as ecommerce order parser");
+                return new ShopifyOrderParser();
+            default:
+                LOGGER.info("using [default] as ecommerce order parser");
+                return new FakeOrderParser();
         }
     }
 }

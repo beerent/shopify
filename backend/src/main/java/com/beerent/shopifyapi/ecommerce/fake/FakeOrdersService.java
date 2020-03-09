@@ -1,10 +1,12 @@
 package com.beerent.shopifyapi.ecommerce.fake;
 
+import com.beerent.shopifyapi.ecommerce.IEcommerceOrderParser;
 import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersService;
 import com.beerent.shopifyapi.model.orders.Order;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +19,10 @@ import java.util.List;
  * communicate specifically to an ecommerce fake.
  */
 public class FakeOrdersService implements IEcommerceOrdersService {
+
+    @Autowired
+    private IEcommerceOrderParser eCommerceOrderParser;
+
     /*
      * Fetches all customer orders from ecommerce fake.
      *
@@ -27,7 +33,7 @@ public class FakeOrdersService implements IEcommerceOrdersService {
         String jsonString = LoadJsonFromDisk();
         JSONObject jsonObject = StringToJson(jsonString);
 
-        return new FakeOrderParser().ParseOrders(jsonObject);
+        return this.eCommerceOrderParser.ParseOrders(jsonObject);
     }
 
     /*

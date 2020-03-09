@@ -1,5 +1,6 @@
 package com.beerent.shopifyapi.ecommerce.fake;
 
+import com.beerent.shopifyapi.ecommerce.IEcommerceOrderParser;
 import com.beerent.shopifyapi.model.orders.Order;
 import com.beerent.shopifyapi.model.orders.OrderProductMap;
 import com.beerent.shopifyapi.model.products.Product;
@@ -12,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class FakeOrderParser {
+public class FakeOrderParser implements IEcommerceOrderParser {
 
     private static final String ORDERS = "orders";
 

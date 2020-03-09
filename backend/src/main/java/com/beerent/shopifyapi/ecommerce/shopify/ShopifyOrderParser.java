@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.beerent.shopifyapi.ecommerce.IEcommerceOrderParser;
 import com.beerent.shopifyapi.model.orders.Order;
 import com.beerent.shopifyapi.model.orders.OrderProductMap;
 import com.beerent.shopifyapi.model.products.Product;
@@ -12,7 +13,7 @@ import javafx.util.Pair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class ShopifyOrderParser {
+public class ShopifyOrderParser implements IEcommerceOrderParser {
     private static final String ORDERS = "orders";
 
     private static final String USER = "customer";
@@ -31,21 +32,15 @@ public class ShopifyOrderParser {
     private static final String ORDER_ID = "id";
     private static final String ORDER_PROCESSED_TIMESTAMP = "processed_at";
 
-    private Map<Long, User> users;
-    private Map<Long, Product> products;
-
-    public ShopifyOrderParser() {
-        this.users = new HashMap<Long, User>();
-        this.products = new HashMap<Long, Product>();
-    }
-
+    @Override
     public List<Order> ParseOrders(JSONObject obj) {
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
         List<Order> orders = ParseOrders(ordersJson);
+
         return orders;
     }
 
-    public List<Order> ParseOrders(JSONArray ordersJson) {
+    private List<Order> ParseOrders(JSONArray ordersJson) {
         ArrayList<Order> orders = new ArrayList<Order>();
 
         for (int i = 0; i < ordersJson.size(); i++) {
@@ -57,7 +52,7 @@ public class ShopifyOrderParser {
         return orders;
     }
 
-    public Order ParseOrder(JSONObject orderJson) {
+    private Order ParseOrder(JSONObject orderJson) {
         Order order = new Order();
 
         Long ecommerceId = (Long) orderJson.get(ORDER_ID);
@@ -94,28 +89,32 @@ public class ShopifyOrderParser {
         return date;
     }
 
-    public User ParseUser(JSONObject userJson) {
-        Long ecommerceId = (Long) userJson.get(USER_ID);
-
-        User user = null;
-        if (this.users.containsKey(ecommerceId)) {
-            user = this.users.get(ecommerceId);
-        } else {
-            String firstName = (String) userJson.get(USER_FIRST_NAME);
-            String lastName = (String) userJson.get(USER_LAST_NAME);
-            String email = (String) userJson.get(USER_EMAIL);
-            String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
-            user = new User(firstName, lastName, email, phoneNumber);
-            this.users.put(ecommerceId, user);
-        }
-
+    /*
+     * returns the user who made the order.
+     *
+     * can cache users if creation is redundant/ expensive.
+     */
+    private User ParseUser(JSONObject userJson) {
+        User user = createUser(userJson);
         return user;
+    }
+
+    private User createUser(JSONObject userJson) {
+        String firstName = (String) userJson.get(USER_FIRST_NAME);
+        String lastName = (String) userJson.get(USER_LAST_NAME);
+        String email = (String) userJson.get(USER_EMAIL);
+        String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
+
+        return new User(firstName, lastName, email, phoneNumber);
     }
 
     /*
      * parse Products model
+     *
+     * returns a set of all products in an order.
+     * the Pair is a map of product to the quantity ordered.
      */
-    Set<Pair<Product, Long>> ParseProducts(JSONArray productsJson) {
+    private Set<Pair<Product, Long>> ParseProducts(JSONArray productsJson) {
         Set<Pair<Product, Long>> products = new HashSet<Pair<Product, Long>>();
 
         for (int i = 0; i < productsJson.size(); i++) {
@@ -129,22 +128,25 @@ public class ShopifyOrderParser {
 
     /*
      * parse Product model
+     *
+     * Pair return type maps the product to quantity ordered
      */
-    Pair<Product, Long> ParseProduct(JSONObject productJson) {
-        Long ecommerceId = (Long) productJson.get(PRODUCT_ID);
-
-        Product product = null;
-        if (this.products.containsKey(ecommerceId)) {
-            product = this.products.get(ecommerceId);
-        } else {
-            String name = (String) productJson.get(PRODUCT_NAME);
-            Double price = (Double) Double.parseDouble((String) productJson.get(PRODUCT_PRICE));
-
-            product = new Product(name, price);
-            this.products.put(ecommerceId, product);
-        }
+    private Pair<Product, Long> ParseProduct(JSONObject productJson) {
+        Product product = createProduct(productJson);
         Long quantity = (Long) productJson.get(PRODUCT_QUANTITY);
 
         return new Pair<Product, Long>(product, quantity);
+    }
+
+    /*
+     * returns the user who made the order.
+     *
+     * can cache products if creation is redundant/ expensive.
+     */
+    private Product createProduct(JSONObject productJson) {
+        String name = (String) productJson.get(PRODUCT_NAME);
+        Double price = (Double) Double.parseDouble((String) productJson.get(PRODUCT_PRICE));
+
+        return new Product(name, price);
     }
 }
