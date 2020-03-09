@@ -25,8 +25,9 @@ public class OrderJsonUtil {
         JSONObject orderJson = new JSONObject();
 
         orderJson.put("id", order.getId());
+        orderJson.put("external_id", order.getExternalId());
         orderJson.put("user", userToJson(order.getUser()));
-        orderJson.put("external_order_id", order.getExternalOrderId());
+        orderJson.put("external_id", order.getExternalId());
         orderJson.put("date_ordered", ""+order.getOrdered());
         orderJson.put("products", productsToJson(order.getProducts()));
 
@@ -37,6 +38,7 @@ public class OrderJsonUtil {
         JSONObject userJson = new JSONObject();
 
         userJson.put("id", user.getId());
+        userJson.put("external_id", user.getExternalId());
         userJson.put("email", user.getEmail());
         userJson.put("first_name", user.getFirstName());
         userJson.put("last_name", user.getLastName());
@@ -51,6 +53,7 @@ public class OrderJsonUtil {
         for (OrderProductMap product : products) {
             JSONObject productJson = new JSONObject();
             productJson.put("id", product.getId());
+            productJson.put("external_id", product.getProduct().getExternalId());
             productJson.put("name", product.getProduct().getName());
             productJson.put("price", product.getProduct().getPrice());
             productJson.put("quantity", product.getQuantity());

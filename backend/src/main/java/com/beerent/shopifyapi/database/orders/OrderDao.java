@@ -71,9 +71,9 @@ public class OrderDao {
         getCurrentSession().update(order);
     }
 
-    public Order findByExternalOrderId(long id) {
+    public Order findByExternalId(String id) {
         List<Order> orders = (List<Order>) getCurrentSession()
-                .createQuery("from Order where external_order_id = :id")
+                .createQuery("from Order where externalId = :id")
                 .setParameter("id", id).list();
 
         if (orders.isEmpty()) {

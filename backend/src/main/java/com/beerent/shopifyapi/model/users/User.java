@@ -86,9 +86,9 @@ public class User implements Serializable {
     }
 
     public void update(User user) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = user.email;
-        this.phoneNumber = phoneNumber;
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.phoneNumber = user.getPhoneNumber();
     }
 }

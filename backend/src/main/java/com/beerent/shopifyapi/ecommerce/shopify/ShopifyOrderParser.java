@@ -14,6 +14,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class ShopifyOrderParser implements IEcommerceOrderParser {
+    private static final String SHOPIFY_ID = "shopify";
+
     private static final String ORDERS = "orders";
 
     private static final String USER = "customer";
@@ -32,6 +34,14 @@ public class ShopifyOrderParser implements IEcommerceOrderParser {
     private static final String ORDER_EXTERNALID = "id";
     private static final String ORDER_PROCESSED_TIMESTAMP = "processed_at";
 
+    Map<String, Product> productCache;
+    Map<String, User> userCache;
+
+    public ShopifyOrderParser() {
+        this.productCache = new HashMap<String, Product>();
+        this.userCache = new HashMap<String, User>();
+    }
+
     @Override
     public List<Order> ParseOrders(JSONObject obj) {
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
@@ -41,6 +51,9 @@ public class ShopifyOrderParser implements IEcommerceOrderParser {
     }
 
     private List<Order> ParseOrders(JSONArray ordersJson) {
+        this.productCache.clear();
+        this.userCache.clear();
+
         ArrayList<Order> orders = new ArrayList<Order>();
 
         for (int i = 0; i < ordersJson.size(); i++) {
@@ -55,7 +68,8 @@ public class ShopifyOrderParser implements IEcommerceOrderParser {
     private Order ParseOrder(JSONObject orderJson) {
         Order order = new Order();
 
-        Long ecommerceId = (Long) orderJson.get(ORDER_ID);
+        String externalId = "" + (Long) orderJson.get(ORDER_EXTERNALID);
+
         User user = ParseUser((JSONObject) orderJson.get(USER));
         Date ordered = ParseDate((String)orderJson.get(ORDER_PROCESSED_TIMESTAMP));
         Set<Pair<Product, Long>> products = ParseProducts((JSONArray) orderJson.get(PRODUCTS));
@@ -67,7 +81,7 @@ public class ShopifyOrderParser implements IEcommerceOrderParser {
             orderProductMap.add(opr);
         }
 
-        order.setExternalOrderId(ecommerceId);
+        order.setExternalId(IdToHashCode(externalId));
         order.setUser(user);
         order.setOrdered(ordered);
         order.setProducts(orderProductMap);
@@ -100,13 +114,20 @@ public class ShopifyOrderParser implements IEcommerceOrderParser {
     }
 
     private User createUser(JSONObject userJson) {
-        String externalId = (String) userJson.get(USER_EXTERNAL_ID);
-        String firstName = (String) userJson.get(USER_FIRST_NAME);
-        String lastName = (String) userJson.get(USER_LAST_NAME);
-        String email = (String) userJson.get(USER_EMAIL);
-        String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
+        String externalId = "" + (Long) userJson.get(USER_EXTERNAL_ID);
 
-        return new User(externalId, firstName, lastName, email, phoneNumber);
+        User user = this.userCache.get(IdToHashCode(externalId));
+        if (user == null) {
+
+            String firstName = (String) userJson.get(USER_FIRST_NAME);
+            String lastName = (String) userJson.get(USER_LAST_NAME);
+            String email = (String) userJson.get(USER_EMAIL);
+            String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
+            user =  new User(IdToHashCode(externalId), firstName, lastName, email, phoneNumber);
+            this.userCache.put(IdToHashCode(externalId), user);
+        }
+
+        return user;
     }
 
     /*
@@ -145,10 +166,21 @@ public class ShopifyOrderParser implements IEcommerceOrderParser {
      * can cache products if creation is redundant/ expensive.
      */
     private Product createProduct(JSONObject productJson) {
-        String externalId = (String) productJson.get(PRODUCT_EXTERNAL_ID);
-        String name = (String) productJson.get(PRODUCT_NAME);
-        Double price = (Double) Double.parseDouble((String) productJson.get(PRODUCT_PRICE));
+        String externalId = "" + (Long) productJson.get(PRODUCT_EXTERNAL_ID);
 
-        return new Product(externalId, name, price);
+        Product product = this.productCache.get(IdToHashCode(externalId));
+        if (product == null) {
+            String name = (String) productJson.get(PRODUCT_NAME);
+            Double price = (Double) Double.parseDouble((String) productJson.get(PRODUCT_PRICE));
+
+            product = new Product(IdToHashCode(IdToHashCode(externalId)), name, price);
+            this.productCache.put(IdToHashCode(IdToHashCode(externalId)), product);
+        }
+
+        return product;
+    }
+
+    private String IdToHashCode(String id) {
+        return "" + (id + SHOPIFY_ID).hashCode();
     }
 }

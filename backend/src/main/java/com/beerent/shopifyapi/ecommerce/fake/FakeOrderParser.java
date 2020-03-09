@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class FakeOrderParser implements IEcommerceOrderParser {
+    private static final String FAKE_ID = "FAKE";
 
     private static final String ORDERS = "orders";
 
@@ -22,18 +23,26 @@ public class FakeOrderParser implements IEcommerceOrderParser {
     private static final String USER_LAST_NAME = "last_name";
     private static final String USER_EMAIL = "email";
     private static final String USER_PHONE_NUMBER = "phone_number";
-    private static final String USER_ID = "id";
+    private static final String USER_EXTERNAL_ID = "id";
 
     private static final String PRODUCTS = "products";
     private static final String PRODUCT_NAME = "name";
     private static final String PRODUCT_QUANTITY = "quantity";
     private static final String PRODUCT_PRICE = "price";
-    private static final String PRODUCT_ID = "id";
+    private static final String PRODUCT_EXTERNAL_ID = "id";
 
-    private static final String ORDER_ID = "id";
+    private static final String ORDER_EXTERNAL_ID = "id";
     private static final String ORDER_PROCESSED_TIMESTAMP = "date";
 
+    Map<String, Product> productCache;
+
+    public FakeOrderParser() {
+        this.productCache = new HashMap<String, Product>();
+    }
+
     public List<Order> ParseOrders(JSONObject obj) {
+        this.productCache.clear();
+
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
         return ParseOrders(ordersJson);
     }
@@ -53,7 +62,7 @@ public class FakeOrderParser implements IEcommerceOrderParser {
     public Order ParseOrder(JSONObject orderJson) {
         Order order = new Order();
 
-        Long ecommerceId = (Long) orderJson.get(ORDER_ID);
+        String externalId = "" + (Long) orderJson.get(ORDER_EXTERNAL_ID);
         User user = ParseUser((JSONObject) orderJson.get(USER));
         Date ordered = ParseDate((String)orderJson.get(ORDER_PROCESSED_TIMESTAMP));
         Set<Pair<Product, Long>> products = ParseProducts((JSONArray) orderJson.get(PRODUCTS));
@@ -65,7 +74,7 @@ public class FakeOrderParser implements IEcommerceOrderParser {
             orderProductMap.add(opr);
         }
 
-        order.setExternalOrderId(ecommerceId);
+        order.setExternalId(IdToHashCode(externalId));
         order.setUser(user);
         order.setOrdered(ordered);
         order.setProducts(orderProductMap);
@@ -91,12 +100,13 @@ public class FakeOrderParser implements IEcommerceOrderParser {
      * parse User model
     */
     public User ParseUser(JSONObject userJson) {
+        String externalId = "" + (Long) userJson.get(USER_EXTERNAL_ID);
         String firstName = (String) userJson.get(USER_FIRST_NAME);
         String lastName = (String) userJson.get(USER_LAST_NAME);
         String email = (String) userJson.get(USER_EMAIL);
         String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
 
-        User user = new User(firstName, lastName, email, phoneNumber);
+        User user = new User(IdToHashCode(externalId), firstName, lastName, email, phoneNumber);
         return user;
     }
 
@@ -119,15 +129,28 @@ public class FakeOrderParser implements IEcommerceOrderParser {
      * parse Product model
      */
     Pair<Product, Long> ParseProduct(JSONObject productJson) {
-        String name = (String) productJson.get(PRODUCT_NAME);
-        Double price = (Double) productJson.get(PRODUCT_PRICE);
-        Product product = new Product(name, price);
+        String externalId = "" + (Long) productJson.get(PRODUCT_EXTERNAL_ID);
+
+        Product p = this.productCache.get(IdToHashCode(externalId));
+        if (p == null) {
+            String name = (String) productJson.get(PRODUCT_NAME);
+            Double price = (Double) productJson.get(PRODUCT_PRICE);
+            p = new Product(IdToHashCode(externalId), name, price);
+
+            this.productCache.put(IdToHashCode(externalId), p);
+        }
+
+
 
         Long quantity = new Long(1);
         if (productJson.get(PRODUCT_QUANTITY) != null) {
             quantity = (Long) productJson.get(PRODUCT_QUANTITY);
         }
 
-        return new Pair<Product, Long>(product, quantity);
+        return new Pair<Product, Long>(p, quantity);
+    }
+
+    private String IdToHashCode(String id) {
+        return "" + (id + FAKE_ID).hashCode();
     }
 }

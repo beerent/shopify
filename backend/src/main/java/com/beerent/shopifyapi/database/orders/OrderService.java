@@ -1,17 +1,16 @@
 package com.beerent.shopifyapi.database.orders;
 
 import com.beerent.shopifyapi.model.orders.Order;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class OrderService {
 
     private static OrderDao orderDao;
-
     private Boolean updateOrders;
 
     public OrderService() {
+        orderDao = new OrderDao();
         this.updateOrders = false;
     }
 
@@ -25,7 +24,7 @@ public class OrderService {
 
         for (int i = 0; i < orders.size(); i++) {
              Order order = orders.get(i);
-            Order existingModel = orderDao.findByExternalOrderId(order.getExternalOrderId());
+            Order existingModel = orderDao.findByExternalId(order.getExternalId());
 
             if (existingModel != null) {
                 if (this.updateOrders) {
