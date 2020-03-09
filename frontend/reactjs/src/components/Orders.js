@@ -109,7 +109,7 @@ class Orders extends Component {
     return (
       <div>
         <div className="jumbotron text-center mb-0">
-          <h1>E-Commerce Dashboard</h1>
+          <h1>Brent's Telescopes Sales</h1>
         </div>
         
         <div className="text-center mt-4 mb-4">
@@ -125,7 +125,7 @@ class Orders extends Component {
           </div>
         </div>
 
-        <div>{orderElements}</div>
+        <div className="row justify-content-md-center">{orderElements}</div>
         </div>
       )
   }
