@@ -1,6 +1,5 @@
 package com.beerent.shopifyapi.model.orders;
 
-import com.beerent.shopifyapi.model.products.ProductModel;
 import com.beerent.shopifyapi.model.users.UserModel;
 
 import javax.persistence.*;
@@ -25,17 +24,18 @@ public class OrderModel {
     private UserModel user;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<ProductModel> products;
+    @JoinColumn(name = "id")
+    private Set<OrderProductMap> products;
 
     public OrderModel() {
-        this.products = new HashSet<ProductModel>();
+        this.products = new HashSet<OrderProductMap>();
     }
 
     public OrderModel(long externalOrderId, Date ordered, UserModel user) {
         this.externalOrderId = externalOrderId;
         this.ordered = ordered;
         this.user = user;
-        this.products = new HashSet<ProductModel>();
+        this.products = new HashSet<OrderProductMap>();
     }
 
     public int getId() {
@@ -70,11 +70,11 @@ public class OrderModel {
         this.ordered = ordered;
     }
 
-    public Set<ProductModel> getProducts() {
+    public Set<OrderProductMap> getProducts() {
         return this.products;
     }
 
-    public void setProducts(Set<ProductModel> products) {
+    public void setProducts(Set<OrderProductMap> products) {
         this.products = products;
     }
 }

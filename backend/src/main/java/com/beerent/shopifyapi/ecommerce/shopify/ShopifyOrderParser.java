@@ -5,8 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.beerent.shopifyapi.model.orders.OrderModel;
+import com.beerent.shopifyapi.model.orders.OrderProductMap;
 import com.beerent.shopifyapi.model.products.ProductModel;
 import com.beerent.shopifyapi.model.users.UserModel;
+import javafx.util.Pair;
+import org.aspectj.weaver.ast.Or;
+import org.hibernate.criterion.Order;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -22,6 +26,7 @@ public class ShopifyOrderParser {
 
     private static final String PRODUCTS = "line_items";
     private static final String PRODUCT_NAME = "title";
+    private static final String PRODUCT_QUANTITY = "quantity";
     private static final String PRODUCT_PRICE = "price";
     private static final String PRODUCT_ID = "id";
 
@@ -60,12 +65,19 @@ public class ShopifyOrderParser {
         Long ecommerceId = (Long) orderJson.get(ORDER_ID);
         UserModel user = ParseUser((JSONObject) orderJson.get(USER));
         Date ordered = ParseDate((String)orderJson.get(ORDER_PROCESSED_TIMESTAMP));
-        Set<ProductModel> products = ParseProducts((JSONArray) orderJson.get(PRODUCTS));
+        Set<Pair<ProductModel, Long>> products = ParseProducts((JSONArray) orderJson.get(PRODUCTS));
+
+        Set<OrderProductMap> orderProductMap = new HashSet<OrderProductMap>();
+
+        for (Pair<ProductModel, Long> product : products) {
+            OrderProductMap opr = new OrderProductMap(order, product.getKey(), product.getValue());
+            orderProductMap.add(opr);
+        }
 
         order.setExternalOrderId(ecommerceId);
         order.setUser(user);
         order.setOrdered(ordered);
-        order.setProducts(products);
+        order.setProducts(orderProductMap);
 
         return order;
     }
@@ -105,12 +117,12 @@ public class ShopifyOrderParser {
     /*
      * parse Products model
      */
-    Set<ProductModel> ParseProducts(JSONArray productsJson) {
-        Set<ProductModel> products = new HashSet<ProductModel>();
+    Set<Pair<ProductModel, Long>> ParseProducts(JSONArray productsJson) {
+        Set<Pair<ProductModel, Long>> products = new HashSet<Pair<ProductModel, Long>>();
 
         for (int i = 0; i < productsJson.size(); i++) {
             JSONObject productJson = (JSONObject) productsJson.get(i);
-            ProductModel product = ParseProduct(productJson);
+            Pair<ProductModel, Long> product = ParseProduct(productJson);
             products.add(product);
         }
 
@@ -120,7 +132,7 @@ public class ShopifyOrderParser {
     /*
      * parse Product model
      */
-    ProductModel ParseProduct(JSONObject productJson) {
+    Pair<ProductModel, Long> ParseProduct(JSONObject productJson) {
         Long ecommerceId = (Long) productJson.get(PRODUCT_ID);
 
         ProductModel product = null;
@@ -133,7 +145,8 @@ public class ShopifyOrderParser {
             product = new ProductModel(name, price);
             this.products.put(ecommerceId, product);
         }
+        Long quantity = (Long) productJson.get(PRODUCT_QUANTITY);
 
-        return product;
+        return new Pair<ProductModel, Long>(product, quantity);
     }
 }

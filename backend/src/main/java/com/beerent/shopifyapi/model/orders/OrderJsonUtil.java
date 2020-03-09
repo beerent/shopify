@@ -29,7 +29,7 @@ public class OrderJsonUtil {
         orderJson.put("user", userToJson(order.getUser()));
         orderJson.put("external_order_id", order.getExternalOrderId());
         orderJson.put("date_ordered", ""+order.getOrdered());
-        orderJson.put("products", productsToJson(order.getProducts()));
+        //orderJson.put("products", productsToJson(order.getProducts()));
 
         return orderJson;
     }
