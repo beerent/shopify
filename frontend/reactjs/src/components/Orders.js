@@ -14,7 +14,7 @@ class Orders extends Component {
 
     self.FetchStarted();
 
-    fetch('http://localhost:8080/get')
+    fetch('http://localhost:8080/v1/orders')
     .then(res => res.json())
     .then((data) => {
       if (self.isComponentMounted) {
@@ -33,7 +33,7 @@ class Orders extends Component {
 
     self.FetchStarted();
 
-    fetch('http://localhost:8080/fetch', {
+    fetch('http://localhost:8080/v1/orders/fetch', {
       method: 'POST',
       headers: {
         'Accept': '*/*',
@@ -52,7 +52,7 @@ class Orders extends Component {
 
     self.FetchStarted();
 
-    fetch('http://localhost:8080/delete', {
+    fetch('http://localhost:8080/v1/orders', {
       method: 'DELETE',
       headers: {
         'Accept': '*/*',
