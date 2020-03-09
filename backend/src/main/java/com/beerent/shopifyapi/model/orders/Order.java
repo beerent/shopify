@@ -78,29 +78,25 @@ public class Order {
         this.products = products;
     }
 
-    public void updateProducts(Set<OrderProductMap> products) {
-        for (OrderProductMap n : products) {
-            for (OrderProductMap o : this.products) {
-                if (n.getProduct().getName().equals(o.getProduct().getName())) {
-                    o.setQuantity(n.getQuantity());
-                    break;
-                }
-            }
-        }
-    }
-
-    public void update(Order order) {
+    public void CopyNonUniqueFields(Order order) {
         this.ordered = order.getOrdered();
         this.externalId = order.getExternalId();
-        this.user.update(order.getUser());
+        this.user.CopyNonUniqueFields(order.getUser());
+        CopyProductNonUniqueFields(order);
+    }
+
+    private void CopyProductNonUniqueFields(Order order) {
+        Map<String, OrderProductMap> targetProducts = new HashMap<String, OrderProductMap>();
+        for (OrderProductMap product : order.getProducts()) {
+            targetProducts.put(product.getProduct().getExternalId(), product);
+        }
 
         for (OrderProductMap product : this.products) {
-            for (OrderProductMap newProduct : order.getProducts()) {
-                if (product.getProduct().getName().equals(newProduct.getProduct().getName())) {
-                    product.update(newProduct);
-                    break;
-                }
+            OrderProductMap targetProduct = targetProducts.get(product.getProduct().getExternalId());
+            if (targetProduct != null) {
+                product.CopyNonUniqueFields(targetProduct);
             }
         }
     }
+
 }

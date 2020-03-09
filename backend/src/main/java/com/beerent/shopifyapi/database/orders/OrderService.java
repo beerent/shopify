@@ -24,20 +24,23 @@ public class OrderService {
 
         for (int i = 0; i < orders.size(); i++) {
              Order order = orders.get(i);
-            Order existingModel = orderDao.findByExternalId(order.getExternalId());
+            Order existingOrder = orderDao.findByExternalId(order.getExternalId());
 
-            if (existingModel != null) {
-                if (this.updateOrders) {
-                    existingModel.update(order);
-                }
-
-                order = existingModel;
+            if (existingOrder != null) {
+                HandlePreexistingOrder(order, existingOrder);
+                order = existingOrder;
             }
 
             orderDao.persist(order);
         }
 
         orderDao.closeCurrentSessionwithTransaction();
+    }
+
+    private void HandlePreexistingOrder(Order order, Order existingOrder) {
+        if (this.updateOrders) {
+            existingOrder.CopyNonUniqueFields(order);
+        }
     }
 
     public void persist(Order order) {

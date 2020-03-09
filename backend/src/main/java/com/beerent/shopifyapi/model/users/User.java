@@ -85,7 +85,7 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public void update(User user) {
+    public void CopyNonUniqueFields(User user) {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();

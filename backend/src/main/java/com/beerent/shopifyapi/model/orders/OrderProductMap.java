@@ -61,7 +61,7 @@ public class OrderProductMap {
         this.quantity = quantity;
     }
 
-    public void update(OrderProductMap newProduct) {
+    public void CopyNonUniqueFields(OrderProductMap newProduct) {
         this.quantity = newProduct.getQuantity();
         this.product.update(newProduct.getProduct());
     }
