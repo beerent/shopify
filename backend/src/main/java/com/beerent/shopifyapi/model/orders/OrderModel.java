@@ -23,8 +23,8 @@ public class OrderModel {
     @JoinColumn(columnDefinition="integer", name = "user_id")
     private UserModel user;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id")
     private Set<OrderProductMap> products;
 
     public OrderModel() {

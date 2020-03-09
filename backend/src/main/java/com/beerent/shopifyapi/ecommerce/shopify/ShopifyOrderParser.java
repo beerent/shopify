@@ -71,6 +71,7 @@ public class ShopifyOrderParser {
 
         for (Pair<ProductModel, Long> product : products) {
             OrderProductMap opr = new OrderProductMap(order, product.getKey(), product.getValue());
+            product.getKey().addOrderProduct(opr);
             orderProductMap.add(opr);
         }
 
