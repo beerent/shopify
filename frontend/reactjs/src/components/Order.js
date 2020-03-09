@@ -22,8 +22,8 @@ class Order extends Component {
     productElements.push(
       <li className="list-group-item" key="totalId">
         <div className="row container">
-        <div className="col-md-6"></div>
-        <div className="col-md-6"><span className="float-right"><b>Total</b> ${total.toFixed(2)}</span></div>
+        <div className="col-md-10"><span className="float-right"><b>Total</b></span></div>
+        <div className="col-md-2"><span className="float-right">${total.toFixed(2)}</span></div>
         </div>
       </li>)
 
