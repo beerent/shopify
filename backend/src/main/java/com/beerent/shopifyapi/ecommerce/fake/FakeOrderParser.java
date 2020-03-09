@@ -33,14 +33,6 @@ public class FakeOrderParser implements IEcommerceOrderParser {
     private static final String ORDER_ID = "id";
     private static final String ORDER_PROCESSED_TIMESTAMP = "date";
 
-    private Map<Long, User> users;
-    private Map<Long, Product> products;
-
-    public FakeOrderParser() {
-        this.users = new HashMap<Long, User>();
-        this.products = new HashMap<Long, Product>();
-    }
-
     public List<Order> ParseOrders(JSONObject obj) {
         JSONArray ordersJson = (JSONArray) obj.get(ORDERS);
         return ParseOrders(ordersJson);
@@ -99,20 +91,12 @@ public class FakeOrderParser implements IEcommerceOrderParser {
      * parse User model
     */
     public User ParseUser(JSONObject userJson) {
-        Long ecommerceId = (Long) userJson.get(USER_ID);
+        String firstName = (String) userJson.get(USER_FIRST_NAME);
+        String lastName = (String) userJson.get(USER_LAST_NAME);
+        String email = (String) userJson.get(USER_EMAIL);
+        String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
 
-        User user = null;
-        if (this.users.containsKey(ecommerceId)) {
-            user = this.users.get(ecommerceId);
-        } else {
-            String firstName = (String) userJson.get(USER_FIRST_NAME);
-            String lastName = (String) userJson.get(USER_LAST_NAME);
-            String email = (String) userJson.get(USER_EMAIL);
-            String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
-            user = new User(firstName, lastName, email, phoneNumber);
-            this.users.put(ecommerceId, user);
-        }
-
+        User user = new User(firstName, lastName, email, phoneNumber);
         return user;
     }
 
@@ -135,18 +119,9 @@ public class FakeOrderParser implements IEcommerceOrderParser {
      * parse Product model
      */
     Pair<Product, Long> ParseProduct(JSONObject productJson) {
-        Long ecommerceId = (Long) productJson.get(PRODUCT_ID);
-
-        Product product = null;
-        if (this.products.containsKey(ecommerceId)) {
-            product = this.products.get(ecommerceId);
-        } else {
-            String name = (String) productJson.get(PRODUCT_NAME);
-            Double price = (Double) productJson.get(PRODUCT_PRICE);
-
-            product = new Product(name, price);
-            this.products.put(ecommerceId, product);
-        }
+        String name = (String) productJson.get(PRODUCT_NAME);
+        Double price = (Double) productJson.get(PRODUCT_PRICE);
+        Product product = new Product(name, price);
 
         Long quantity = new Long(1);
         if (productJson.get(PRODUCT_QUANTITY) != null) {
