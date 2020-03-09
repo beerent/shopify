@@ -12,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -20,6 +21,7 @@ import java.util.List;
 */
 public class ShopifyOrdersService implements IEcommerceOrdersService {
     private static final String FETCH_ENDPOINT = "orders";
+    private static final String SHOPIFY_GET_ORDERS_UNFORMATTED = "https://%s/admin/api/%s/%s.json";
 
     //required fields for sending Shopify API requests.
     private String apiKey;
@@ -37,19 +39,63 @@ public class ShopifyOrdersService implements IEcommerceOrdersService {
     /*
      * Fetches all customer orders from Shopify.
      *
-     * see EcommerceCommunicator::FetchOrders()
+     * see IEcommerceOrdersService::FetchOrders()
     */
     @Override
     public List<Order> FetchOrders() {
+        ResponseEntity<String> ordersResponse = GetShopifyFetchOrdersResponse();
+
+        //if there's an issue between us and shopify, do not "inconvenience" the user.
+        if (!ResponseIsValid(ordersResponse)) {
+            return new ArrayList<Order>();
+        }
+
+        return ParseOrders(ordersResponse.getBody());
+    }
+
+    private boolean ResponseIsValid(ResponseEntity<String> response) {
+        return response != null && response.getStatusCode().is2xxSuccessful();
+    }
+
+    private ResponseEntity<String> GetShopifyFetchOrdersResponse() {
         String uri = GetApiUri();
         HttpEntity<String> request = GetHTTPEntity();
-        ResponseEntity<String> response = ExecuteApiExchange(uri, HttpMethod.GET, request, String.class);
 
-        return new ShopifyOrderParser().ParseOrders(ResponseToJson(response));
+        ResponseEntity<String> response = null;
+        try  {
+            response = ExecuteApiExchange(uri, request);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    private ResponseEntity<String> ExecuteApiExchange(String uri, HttpEntity<String> request) {
+        HttpMethod httpMethod = HttpMethod.GET;
+        Class<String> classInstance = String.class;
+
+        return new RestTemplate().exchange(uri, httpMethod, request, classInstance);
+    }
+
+    private List<Order> ParseOrders(String ordersString) {
+        return new ShopifyOrderParser().ParseOrders(ResponseToJson(ordersString));
+    }
+
+    JSONObject ResponseToJson(String response) {
+        JSONObject obj = new JSONObject();
+        JSONParser parser = new JSONParser();
+        try {
+            obj = (JSONObject) parser.parse(response);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 
     private String GetApiUri() {
-        return String.format("https://%s/admin/api/%s/%s.json",
+        return String.format(SHOPIFY_GET_ORDERS_UNFORMATTED,
                 this.store,
                 this.version,
                 FETCH_ENDPOINT);
@@ -69,24 +115,7 @@ public class ShopifyOrdersService implements IEcommerceOrdersService {
 
         byte[] plainCredsBytes = plainCreds.getBytes();
         byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
-        String base64Creds = new String(base64CredsBytes);
 
-        return base64Creds;
-    }
-
-    private ResponseEntity<String> ExecuteApiExchange(String uri, HttpMethod method, HttpEntity<String> request, Class classInstance) {
-        return new RestTemplate().exchange(uri, method, request, classInstance);
-    }
-
-    JSONObject ResponseToJson(ResponseEntity<String> response) {
-        JSONObject obj = new JSONObject();
-        JSONParser parser = new JSONParser();
-        try {
-            obj = (JSONObject) parser.parse(response.getBody());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return obj;
+        return new String(base64CredsBytes);
     }
 }
