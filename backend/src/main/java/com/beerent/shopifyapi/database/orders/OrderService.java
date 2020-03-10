@@ -24,6 +24,9 @@ public class OrderService {
         orderDao.openCurrentSessionwithTransaction();
 
         for (Order order : orders) {
+            if (orderDao.findByExternalId(order.getExternalId())  != null) {
+                continue;
+            }
             orderDao.persist(order);
         }
 
