@@ -21,13 +21,11 @@ public class FakeOrderParser implements IEcommerceOrderParser {
     private static final String USER_LAST_NAME = "last_name";
     private static final String USER_EMAIL = "email";
     private static final String USER_PHONE_NUMBER = "phone_number";
-    private static final String USER_ID = "id";
 
     private static final String PRODUCTS = "products";
     private static final String PRODUCT_NAME = "name";
     private static final String PRODUCT_QUANTITY = "quantity";
     private static final String PRODUCT_PRICE = "price";
-    private static final String PRODUCT_ID = "id";
 
     private static final String ORDER_ID = "id";
     private static final String ORDER_PROCESSED_TIMESTAMP = "date";

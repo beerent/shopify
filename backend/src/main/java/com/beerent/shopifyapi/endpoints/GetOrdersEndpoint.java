@@ -13,9 +13,19 @@ import java.util.List;
 
 @RestController
 public class GetOrdersEndpoint {
+    private OrderService orderService;
+
+    public GetOrdersEndpoint() {
+        this.orderService = new OrderService();
+    }
+
+    public GetOrdersEndpoint(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
     @GetMapping(value = "/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity Get() {
-        List<Order> orders = new OrderService().findAll();
+        List<Order> orders = this.orderService.findAll();
         JSONObject ordersJson = new OrderJsonUtil().toJson(orders);
         String ordersString = ordersJson.toJSONString();
 

@@ -8,11 +8,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DeleteOrdersEndpoint {
+    private OrderService orderService;
+
+    public DeleteOrdersEndpoint() {
+        this.orderService = new OrderService();
+    }
+
+    public DeleteOrdersEndpoint(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @DeleteMapping(value = "/v1/orders")
     public ResponseEntity Delete() {
         new OrderService().deleteAll();
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
 }

@@ -1,5 +1,6 @@
 package com.beerent.shopifyapi.configuration;
 
+import com.beerent.shopifyapi.database.orders.OrderService;
 import com.beerent.shopifyapi.ecommerce.IEcommerceOrderParser;
 import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersService;
 

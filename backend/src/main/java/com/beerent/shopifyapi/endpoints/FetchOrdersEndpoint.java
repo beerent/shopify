@@ -12,16 +12,16 @@ import java.util.List;
 
 @RestController
 public class FetchOrdersEndpoint {
-    private IEcommerceOrdersService eCommerceOrdersService;
+    private IEcommerceOrdersService ordersService;
 
     @Autowired
-    FetchOrdersEndpoint(IEcommerceOrdersService communicator) {
-        this.eCommerceOrdersService = communicator;
+    public FetchOrdersEndpoint(IEcommerceOrdersService ordersService) {
+        this.ordersService = ordersService;
     }
 
     @PostMapping(value = "/v1/orders/fetch")
     public ResponseEntity Fetch() {
-        List<Order> orders = eCommerceOrdersService.FetchOrders();
+        List<Order> orders = ordersService.FetchOrders();
         OrderService orderService = new OrderService();
         orderService.persist(orders);
 
