@@ -13,16 +13,16 @@ import java.util.List;
 
 @RestController
 public class FetchOrdersEndpoint {
-    private IEcommerceOrdersProvider ecommerceOrdersService;
+    private IEcommerceOrdersProvider ecommerceOrdersProvider;
 
     @Autowired
-    public FetchOrdersEndpoint(IEcommerceOrdersProvider ordersService) {
-        this.ecommerceOrdersService = ordersService;
+    public FetchOrdersEndpoint(IEcommerceOrdersProvider ecommerceOrdersProvider) {
+        this.ecommerceOrdersProvider = ecommerceOrdersProvider;
     }
 
     @PostMapping(value = "/v1/orders/fetch")
     public ResponseEntity Fetch() {
-        List<Order> orders = ecommerceOrdersService.FetchOrders();
+        List<Order> orders = ecommerceOrdersProvider.FetchOrders();
         new OrderDatabaseReferenceResolver().resolveDatabaseReferences(orders);
         OrderService orderService = new OrderService();
         orderService.persist(orders);
