@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {formatPrice} from "../util/util.js"
+import {formatPrice, formatPhoneNumber} from "../util/util.js"
 
 class Order extends Component {
 
@@ -40,7 +40,7 @@ class Order extends Component {
         <div className="card-body">
           <h5 className="card-title">{this.props.order.user.first_name + " " + this.props.order.user.last_name}</h5>
           <div><h6 className="card-subtitle mb-2">{this.props.order.user.email}</h6></div>
-          <div><h6 className="card-subtitle mb-2">{this.props.order.user.phone_number}</h6></div>
+          <div><h6 className="card-subtitle mb-2">{formatPhoneNumber(this.props.order.user.phone_number)}</h6></div>
           <p className="card-text"></p>
           <ul className="list-group list-group-flush">
             <li className="list-group-item"></li>

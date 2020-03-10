@@ -1,5 +1,7 @@
-package com.beerent.shopifyapi.model.orders;
+package com.beerent.shopifyapi.util;
 
+import com.beerent.shopifyapi.model.orders.Order;
+import com.beerent.shopifyapi.model.orders.OrderProductMap;
 import com.beerent.shopifyapi.model.users.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

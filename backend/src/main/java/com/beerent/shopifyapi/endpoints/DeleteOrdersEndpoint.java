@@ -18,6 +18,9 @@ public class DeleteOrdersEndpoint {
         this.orderService = orderService;
     }
 
+    /*
+     * This end point will delete all records from the database.
+    */
     @DeleteMapping(value = "/v1/orders")
     public ResponseEntity Delete() {
         new OrderService().deleteAll();

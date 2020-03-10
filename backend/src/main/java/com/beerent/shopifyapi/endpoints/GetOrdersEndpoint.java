@@ -1,7 +1,7 @@
 package com.beerent.shopifyapi.endpoints;
 
 import com.beerent.shopifyapi.database.orders.OrderService;
-import com.beerent.shopifyapi.model.orders.OrderJsonUtil;
+import com.beerent.shopifyapi.util.OrderJsonUtil;
 import com.beerent.shopifyapi.model.orders.Order;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;

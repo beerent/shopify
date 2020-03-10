@@ -1,6 +1,6 @@
 package com.beerent.shopifyapi.database.products;
-import com.beerent.shopifyapi.model.products.Product;
 
+import com.beerent.shopifyapi.model.products.Product;
 import java.util.List;
 
 public class ProductService {

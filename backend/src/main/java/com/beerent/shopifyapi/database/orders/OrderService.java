@@ -1,16 +1,8 @@
 package com.beerent.shopifyapi.database.orders;
 
-import com.beerent.shopifyapi.database.products.ProductDao;
-import com.beerent.shopifyapi.database.products.ProductService;
-import com.beerent.shopifyapi.database.users.UserDao;
-import com.beerent.shopifyapi.database.users.UserService;
 import com.beerent.shopifyapi.model.orders.Order;
-import com.beerent.shopifyapi.model.orders.OrderProductMap;
-import com.beerent.shopifyapi.model.products.Product;
-import com.beerent.shopifyapi.model.users.User;
 
 import java.util.List;
-import java.util.Set;
 
 public class OrderService {
 

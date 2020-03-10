@@ -21,33 +21,46 @@ import java.util.Map;
  */
 public class OrderDatabaseReferenceResolver {
 
+    OrderService orderService;
+    UserService userService;
+    ProductService productService;
+
     Map<String, Product> productCache;
     Map<String, User> userCache;
 
-    public void resolveReferences(List<Order> orders) {
-        productCache = new HashMap<String, Product>();
-        userCache = new HashMap<String, User>();
+    public OrderDatabaseReferenceResolver() {
+        this.orderService = new OrderService();
+        this.userService = new UserService();
+        this.productService = new ProductService();
 
-        OrderService orderService = new OrderService();
+        this.userCache = new HashMap<String, User>();
+        this.productCache = new HashMap<String, Product>();
+    }
 
-        for (int i = 0; i < orders.size(); i++) {
-            Order order = orders.get(i);
-            if (orderService.findByExternalId(order.getExternalId())  == null) {
-                resolveReferences(order);
+    public void resolveDatabaseReferences(List<Order> orders) {
+        //optimization if we know there are no references to be made.
+        if(DatabaseContainsOrders() == false) {
+            return;
+        }
+
+        clearCaches();
+
+        for (Order order : orders) {
+            if (this.orderService.findByExternalId(order.getExternalId())  == null) {
+                resolveDatabaseReferences(order);
             }
         }
     }
 
-    private void resolveReferences(Order order) {
-        resolveExistingUserReference(order);
-        resolveExistingProductsReferences(order);
+    private void resolveDatabaseReferences(Order order) {
+        resolveUserDatabaseReference(order);
+        resolveProductsDatabaseReference(order);
     }
 
-    private void resolveExistingUserReference(Order order) {
+    private void resolveUserDatabaseReference(Order order) {
         User existingUser = this.userCache.get(order.getUser().getExternalId());
         if (existingUser == null) {
-            UserService userService = new UserService();
-            existingUser = userService.findByExternalId(order.getUser().getExternalId());
+            existingUser = this.userService.findByExternalId(order.getUser().getExternalId());
         }
 
         if (existingUser != null) {
@@ -56,23 +69,30 @@ public class OrderDatabaseReferenceResolver {
         }
     }
 
-    private void resolveExistingProductsReferences(Order order) {
+    private void resolveProductsDatabaseReference(Order order) {
         for (OrderProductMap product : order.getProducts()) {
-            resolveExistingProduct(product);
+            resolveProductDatabaseReference(product);
         }
     }
 
-    private void resolveExistingProduct(OrderProductMap product) {
-
+    private void resolveProductDatabaseReference(OrderProductMap product) {
         Product existingProduct = this.productCache.get(product.getProduct().getExternalId());
         if (existingProduct == null) {
-            ProductService productService = new ProductService();
-            existingProduct = productService.findByExternalId(product.getProduct().getExternalId());
+            existingProduct = this.productService.findByExternalId(product.getProduct().getExternalId());
         }
 
         if (existingProduct != null) {
             this.productCache.put(existingProduct.getExternalId(), existingProduct);
             product.setProduct(existingProduct);
         }
+    }
+
+    private boolean DatabaseContainsOrders() {
+        return this.orderService.findAll().size() > 0;
+    }
+
+    private void clearCaches() {
+        this.userCache.clear();
+        this.productCache.clear();
     }
 }

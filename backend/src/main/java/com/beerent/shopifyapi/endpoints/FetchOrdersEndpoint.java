@@ -23,7 +23,7 @@ public class FetchOrdersEndpoint {
     @PostMapping(value = "/v1/orders/fetch")
     public ResponseEntity Fetch() {
         List<Order> orders = ecommerceOrdersService.FetchOrders();
-        new OrderDatabaseReferenceResolver().resolveReferences(orders);
+        new OrderDatabaseReferenceResolver().resolveDatabaseReferences(orders);
         OrderService orderService = new OrderService();
         orderService.persist(orders);
 
