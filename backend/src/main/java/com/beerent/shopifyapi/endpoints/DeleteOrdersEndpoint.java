@@ -20,6 +20,8 @@ public class DeleteOrdersEndpoint {
 
     /*
      * This end point will delete all records from the database.
+     *
+     * request must come in with the DELETE method.
     */
     @DeleteMapping(value = "/v1/orders")
     public ResponseEntity Delete() {

@@ -23,6 +23,11 @@ public class GetOrdersEndpoint {
         this.orderService = orderService;
     }
 
+    /*
+     * This endpoint returns all of the orders from the database.
+     *
+     * The request must come in with the GET method;
+    */
     @GetMapping(value = "/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity Get() {
         List<Order> orders = this.orderService.findAll();

@@ -20,6 +20,11 @@ public class FetchOrdersEndpoint {
         this.ecommerceOrdersProvider = ecommerceOrdersProvider;
     }
 
+    /*
+     * This endpoint is a request to fetch data from the ecommerce endpoint.
+     *
+     * request must come in with the POST method.
+    */
     @PostMapping(value = "/v1/orders/fetch")
     public ResponseEntity Fetch() {
         List<Order> orders = ecommerceOrdersProvider.FetchOrders();
