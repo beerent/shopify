@@ -2,7 +2,7 @@ package com.beerent.shopifyapi.endpoints;
 
 import com.beerent.shopifyapi.database.OrderDatabaseReferenceResolver;
 import com.beerent.shopifyapi.database.orders.OrderService;
-import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersService;
+import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersProvider;
 import com.beerent.shopifyapi.model.orders.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +13,10 @@ import java.util.List;
 
 @RestController
 public class FetchOrdersEndpoint {
-    private IEcommerceOrdersService ecommerceOrdersService;
+    private IEcommerceOrdersProvider ecommerceOrdersService;
 
     @Autowired
-    public FetchOrdersEndpoint(IEcommerceOrdersService ordersService) {
+    public FetchOrdersEndpoint(IEcommerceOrdersProvider ordersService) {
         this.ecommerceOrdersService = ordersService;
     }
 

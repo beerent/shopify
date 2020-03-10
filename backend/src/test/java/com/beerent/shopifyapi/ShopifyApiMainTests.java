@@ -1,7 +1,7 @@
 package com.beerent.shopifyapi;
 
 import com.beerent.shopifyapi.database.orders.OrderService;
-import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersService;
+import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersProvider;
 import com.beerent.shopifyapi.endpoints.DeleteOrdersEndpoint;
 import com.beerent.shopifyapi.endpoints.FetchOrdersEndpoint;
 import com.beerent.shopifyapi.endpoints.GetOrdersEndpoint;
@@ -19,7 +19,7 @@ class ShopifyApiMainTests {
 
 	@Test
 	void testFetchOrdersReturnCode() {
-		IEcommerceOrdersService comms = mock(IEcommerceOrdersService.class);
+		IEcommerceOrdersProvider comms = mock(IEcommerceOrdersProvider.class);
 		List<Order> orders = new ArrayList<Order>();
 		when(comms.FetchOrders()).thenReturn(orders);
 

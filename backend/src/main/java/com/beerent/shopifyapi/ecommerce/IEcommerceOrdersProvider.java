@@ -9,7 +9,7 @@ import java.util.List;
  * This interface is used to force Specific ecommerce communicators
  * to conform to the same API.
 */
-public interface IEcommerceOrdersService {
+public interface IEcommerceOrdersProvider {
     /*
      * Retrieve all orders from the ecommerce endpoint
     */

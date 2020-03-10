@@ -1,12 +1,12 @@
 package com.beerent.shopifyapi.configuration;
 
 import com.beerent.shopifyapi.ecommerce.IEcommerceOrderParser;
-import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersService;
+import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersProvider;
 
 import com.beerent.shopifyapi.ecommerce.fake.FakeOrderParser;
-import com.beerent.shopifyapi.ecommerce.fake.FakeOrdersService;
+import com.beerent.shopifyapi.ecommerce.fake.FakeOrdersProvider;
 import com.beerent.shopifyapi.ecommerce.shopify.ShopifyOrderParser;
-import com.beerent.shopifyapi.ecommerce.shopify.ShopifyOrdersService;
+import com.beerent.shopifyapi.ecommerce.shopify.ShopifyOrdersProvider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class Config {
         }
     }
 
-    ShopifyOrdersService GetShopifyCommunicator() {
+    ShopifyOrdersProvider GetShopifyCommunicator() {
         String apiKey = this.properties.getProperty(ECOMMERCE_PROPERTY_SHOPIFY_API_KEY);
         String password = this.properties.getProperty(ECOMMERCE_PROPERTY_SHOPIFY_API_PASSWORD);
         String store = this.properties.getProperty(ECOMMERCE_PROPERTY_SHOPIFY_STORE);
@@ -69,18 +69,18 @@ public class Config {
             System.exit(1);
         }
 
-        return new ShopifyOrdersService(apiKey, password, store, version);
+        return new ShopifyOrdersProvider(apiKey, password, store, version);
     }
 
     @Bean
-    public IEcommerceOrdersService eCommerceCommunicator() {
+    public IEcommerceOrdersProvider eCommerceCommunicator() {
         switch(this.properties.getProperty(ECOMMERCE_PROPERTY)) {
             case ECOMMERCE_PROPERTY_SHOPIFY:
                 LOGGER.info("using [" + ECOMMERCE_PROPERTY_SHOPIFY + "] as ecommerce communicator");
                 return GetShopifyCommunicator();
             default:
                 LOGGER.info("using [default] as ecommerce communicator");
-                return new FakeOrdersService();
+                return new FakeOrdersProvider();
         }
     }
 
