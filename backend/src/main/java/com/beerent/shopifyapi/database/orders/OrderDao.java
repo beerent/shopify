@@ -103,4 +103,8 @@ public class OrderDao {
             delete(order);
         }
     }
+
+    public void merge(Order order) {
+        getCurrentSession().merge(order);
+    }
 }

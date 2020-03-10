@@ -22,12 +22,13 @@ public class OrderService {
 
     public void persist(List<Order> orders) {
         orderDao.openCurrentSessionwithTransaction();
-
         for (Order order : orders) {
-            if (orderDao.findByExternalId(order.getExternalId())  != null) {
+            Order existingOrder = orderDao.findByExternalId(order.getExternalId());
+            if (existingOrder != null) {
+                orderDao.update(existingOrder);
                 continue;
             }
-            orderDao.persist(order);
+            orderDao.merge(order);
         }
 
         orderDao.closeCurrentSessionwithTransaction();
