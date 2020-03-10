@@ -44,7 +44,7 @@ class Orders extends Component {
     })
     .catch(function(){
       self.FetchFinished();
-    })
+    });
   }
 
   DeleteOrders = () => {
@@ -60,7 +60,9 @@ class Orders extends Component {
       body: JSON.stringify({})
     }).then(() => {
       self.GetOrders();
-    });
+    }).catch(function(){
+      self.FetchFinished();
+    })
   }
 
   componentDidMount() {
