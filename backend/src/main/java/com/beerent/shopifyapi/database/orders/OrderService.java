@@ -20,15 +20,23 @@ public class OrderService {
         orderDao = new OrderDao();
     }
 
+    //TODO: update existing references with any new data.
+    //
+    // note: as this stands this will not update records. this just adds new ones
+    // and returns a list full of records from the database.
     public void persist(List<Order> orders) {
         orderDao.openCurrentSessionwithTransaction();
-        for (Order order : orders) {
+
+        for (int i = 0; i < orders.size(); i++) {
+            Order order = orders.get(i);
             Order existingOrder = orderDao.findByExternalId(order.getExternalId());
+
             if (existingOrder != null) {
-                orderDao.update(existingOrder);
-                continue;
+                orders.set(i, existingOrder); // update list with reference to order from database
+            } else {
+                // merge is needed because cascading references have different foreign key references
+                orderDao.merge(order);
             }
-            orderDao.merge(order);
         }
 
         orderDao.closeCurrentSessionwithTransaction();

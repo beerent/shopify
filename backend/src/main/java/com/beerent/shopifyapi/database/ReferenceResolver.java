@@ -26,61 +26,48 @@ public class ReferenceResolver {
 
         for (int i = 0; i < orders.size(); i++) {
             Order order = orders.get(i);
-            Order existingOrder = orderService.findByExternalId(order.getExternalId());
-            if (existingOrder == null) {
-                resolveExistingUser(order);
-                resolveExistingProducts(order);
+            if (orderService.findByExternalId(order.getExternalId())  == null) {
+                resolveReferences(order);
             }
         }
     }
 
-    private void resolveExistingUser(Order order) {
-        User existingUser = null;
-        if (this.userCache.containsKey(order.getUser().getExternalId())) {
-            existingUser = this.userCache.get(order.getUser().getExternalId());
-        } else {
+    private void resolveReferences(Order order) {
+        resolveExistingUserReference(order);
+        resolveExistingProductsReferences(order);
+    }
+
+    private void resolveExistingUserReference(Order order) {
+        User existingUser = this.userCache.get(order.getUser().getExternalId());
+        if (existingUser == null) {
             UserService userService = new UserService();
             existingUser = userService.findByExternalId(order.getUser().getExternalId());
-            if (existingUser != null) {
-                this.userCache.put(existingUser.getExternalId(), existingUser);
-            }
         }
 
         if (existingUser != null) {
+            this.userCache.put(existingUser.getExternalId(), existingUser);
             order.setUser(existingUser);
         }
     }
 
-    private void resolveExistingProducts(Order order) {
-        ProductService productService = new ProductService();
+    private void resolveExistingProductsReferences(Order order) {
         Set<OrderProductMap> products = order.getProducts();
         for (OrderProductMap product : products) {
-
-            Product existingProduct = null;
-            if (this.productCache.containsKey(product.getProduct().getExternalId())) {
-                existingProduct = this.productCache.get(product.getProduct().getExternalId());
-            } else {
-                existingProduct = productService.findByExternalId(product.getProduct().getExternalId());
-                if (existingProduct != null) {
-                    this.productCache.put(existingProduct.getExternalId(), existingProduct);
-                }
-            }
-
-            if (existingProduct != null) {
-                product.setProduct(existingProduct);
-            } else {
-                this.productCache.put(product.getProduct().getExternalId(), product.getProduct());
-            }
+            resolveExistingProduct(product);
         }
     }
 
-    private void cacheExistingUser(User user) {
-        this.userCache.put(user.getExternalId(), user);
-    }
+    private void resolveExistingProduct(OrderProductMap product) {
 
-    private void cacheEdistingProduct(Set<OrderProductMap> products) {
-         for (OrderProductMap product : products) {
-             this.productCache.put(product.getProduct().getExternalId(), product.getProduct());
-         }
+        Product existingProduct = this.productCache.get(product.getProduct().getExternalId());
+        if (existingProduct == null) {
+            ProductService productService = new ProductService();
+            existingProduct = productService.findByExternalId(product.getProduct().getExternalId());
+        }
+
+        if (existingProduct != null) {
+            this.productCache.put(existingProduct.getExternalId(), existingProduct);
+            product.setProduct(existingProduct);
+        }
     }
 }
