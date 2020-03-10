@@ -13,8 +13,8 @@ public class Order {
     @Column(name = "id", unique = true)
     private int id;
 
-    @Column(name = "external_order_id", unique = true)
-    private long externalOrderId;
+    @Column(name = "external_id", unique = true)
+    private String externalId;
 
     @Column(name = "ordered")
     private Date ordered;
@@ -31,8 +31,8 @@ public class Order {
         this.products = new HashSet<OrderProductMap>();
     }
 
-    public Order(long externalOrderId, Date ordered, User user) {
-        this.externalOrderId = externalOrderId;
+    public Order(String externalId, Date ordered, User user) {
+        this.externalId = externalId;
         this.ordered = ordered;
         this.user = user;
         this.products = new HashSet<OrderProductMap>();
@@ -54,12 +54,12 @@ public class Order {
         this.user = user;
     }
 
-    public long getExternalOrderId() {
-        return externalOrderId;
+    public String getExternalId() {
+        return externalId;
     }
 
-    public void setExternalOrderId(long externalOrderId) {
-        this.externalOrderId = externalOrderId;
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     public Date getOrdered() {

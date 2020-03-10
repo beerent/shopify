@@ -1,8 +1,16 @@
 package com.beerent.shopifyapi.database.orders;
 
+import com.beerent.shopifyapi.database.products.ProductDao;
+import com.beerent.shopifyapi.database.products.ProductService;
+import com.beerent.shopifyapi.database.users.UserDao;
+import com.beerent.shopifyapi.database.users.UserService;
 import com.beerent.shopifyapi.model.orders.Order;
+import com.beerent.shopifyapi.model.orders.OrderProductMap;
+import com.beerent.shopifyapi.model.products.Product;
+import com.beerent.shopifyapi.model.users.User;
 
 import java.util.List;
+import java.util.Set;
 
 public class OrderService {
 
@@ -15,13 +23,7 @@ public class OrderService {
     public void persist(List<Order> orders) {
         orderDao.openCurrentSessionwithTransaction();
 
-        for (int i = 0; i < orders.size(); i++) {
-            Order order = orders.get(i);
-            Order existingModel = orderDao.findByExternalOrderId(order.getExternalOrderId());
-            if  (existingModel != null) {
-                orders.set(i, existingModel);
-                continue;
-            }
+        for (Order order : orders) {
             orderDao.persist(order);
         }
 
@@ -43,6 +45,14 @@ public class OrderService {
     public Order findById(String id) {
         orderDao.openCurrentSession();
         Order order = orderDao.findById(id);
+        orderDao.closeCurrentSession();
+
+        return order;
+    }
+
+    public Order findByExternalId(String id) {
+        orderDao.openCurrentSession();
+        Order order = orderDao.findByExternalId(id);
         orderDao.closeCurrentSession();
 
         return order;

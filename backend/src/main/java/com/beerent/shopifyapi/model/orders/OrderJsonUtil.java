@@ -27,7 +27,7 @@ public class OrderJsonUtil {
 
         orderJson.put("id", order.getId());
         orderJson.put("user", userToJson(order.getUser()));
-        orderJson.put("external_order_id", order.getExternalOrderId());
+        orderJson.put("external_order_id", order.getExternalId());
         String formattedDate =
                 DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(order.getOrdered());
         orderJson.put("date_ordered", formattedDate);

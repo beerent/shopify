@@ -14,6 +14,9 @@ public class Product {
     @Column(name = "id", unique = true)
     private int id;
 
+    @Column(name = "external_id", unique = true)
+    private String externalId;
+
     @Column(name = "name")
     private String name;
 
@@ -28,9 +31,11 @@ public class Product {
         this.products = new HashSet<OrderProductMap>();
     }
 
-    public Product(String name, Double price) {
+    public Product(String externalId, String name, Double price) {
+        this.externalId = externalId;
         this.name = name;
         this.price = price;
+
         this.products = new HashSet<OrderProductMap>();
     }
 
@@ -68,5 +73,13 @@ public class Product {
 
     public void setProducts(Set<OrderProductMap> products) {
         this.products = products;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 }

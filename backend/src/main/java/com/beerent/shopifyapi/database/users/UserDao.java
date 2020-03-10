@@ -1,20 +1,20 @@
-package com.beerent.shopifyapi.database.orders;
+package com.beerent.shopifyapi.database.users;
 
 import java.util.List;
 
-import com.beerent.shopifyapi.model.orders.Order;
+import com.beerent.shopifyapi.model.users.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-public class OrderDao {
+public class UserDao {
 
     private SessionFactory sessionFactory;
     private Session currentSession;
     private Transaction currentTransaction;
 
-    public OrderDao() {
+    public UserDao() {
     }
 
     public Session openCurrentSession() {
@@ -63,44 +63,44 @@ public class OrderDao {
         this.currentTransaction = currentTransaction;
     }
 
-    public void persist(Order order) {
-        getCurrentSession().saveOrUpdate(order);
+    public void persist(User user) {
+        getCurrentSession().save(user);
     }
 
-    public void update(Order order) {
-        getCurrentSession().update(order);
+    public void update(User user) {
+        getCurrentSession().update(user);
     }
 
-    public Order findByExternalId(String id) {
-        List<Order> orders = (List<Order>) getCurrentSession()
-                .createQuery("from Order where external_id = :id")
+    public User findByExternalId(String id) {
+        List<User> users = (List<User>) getCurrentSession()
+                .createQuery("from User where external_id = :id")
                 .setParameter("id", id).list();
 
-        if (orders.isEmpty()) {
+        if (users.isEmpty()) {
             return null;
         }
 
-        return orders.get(0);
+        return users.get(0);
     }
 
-    public Order findById(String id) {
-        Order order = (Order) getCurrentSession().get(Order.class, id);
-        return order;
+    public User findById(String id) {
+        User user = (User) getCurrentSession().get(User.class, id);
+        return user;
     }
 
-    public void delete(Order order) {
-        getCurrentSession().delete(order);
+    public void delete(User user) {
+        getCurrentSession().delete(user);
     }
 
-    public List<Order> findAll() {
-        return (List<Order>) getCurrentSession().
-                createQuery("from Order", Order.class).list();
+    public List<User> findAll() {
+        return (List<User>) getCurrentSession().
+                createQuery("from User", User.class).list();
     }
 
     public void deleteAll() {
-        List<Order> entityList = findAll();
-        for (Order order : entityList) {
-            delete(order);
+        List<User> entityList = findAll();
+        for (User user : entityList) {
+            delete(user);
         }
     }
 }

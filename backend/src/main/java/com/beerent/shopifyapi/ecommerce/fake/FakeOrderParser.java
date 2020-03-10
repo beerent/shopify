@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class FakeOrderParser implements IEcommerceOrderParser {
+    private static final String FAKE_ID = "FAKE";
 
     private static final String ORDERS = "orders";
 
@@ -62,15 +63,15 @@ public class FakeOrderParser implements IEcommerceOrderParser {
     public Order ParseOrder(JSONObject orderJson) {
         Order order = new Order();
 
-        Long ecommerceId = (Long) orderJson.get(ORDER_ID);
         User user = ParseUser((JSONObject) orderJson.get(USER));
         Date ordered = ParseDate((String)orderJson.get(ORDER_PROCESSED_TIMESTAMP));
+        String uniqueId = hashId(user.getExternalId() + ordered);
         Set<OrderProductMap> products = ParseProducts((JSONArray) orderJson.get(PRODUCTS));
         for (OrderProductMap product : products) {
             product.setOrder(order);
         }
 
-        order.setExternalOrderId(ecommerceId);
+        order.setExternalId(uniqueId);
         order.setUser(user);
         order.setOrdered(ordered);
         order.setProducts(products);
@@ -105,12 +106,12 @@ public class FakeOrderParser implements IEcommerceOrderParser {
         String lastName = (String) userJson.get(USER_LAST_NAME);
         String email = (String) userJson.get(USER_EMAIL);
         String phoneNumber = (String) userJson.get(USER_PHONE_NUMBER);
-        String uniqueId = hashId(firstName + lastName + email + phoneNumber);
+        String externalId = hashId(firstName + lastName + email + phoneNumber);
 
-        User user = this.userCache.get(uniqueId);
+        User user = this.userCache.get(externalId);
         if (user == null) {
-            user = new User(firstName, lastName, email, phoneNumber);
-            this.userCache.put(uniqueId, user);
+            user = new User(externalId, firstName, lastName, email, phoneNumber);
+            this.userCache.put(externalId, user);
         }
 
         return user;
@@ -158,18 +159,18 @@ public class FakeOrderParser implements IEcommerceOrderParser {
     private Product getProduct(JSONObject productJson) {
         String name = (String) productJson.get(PRODUCT_NAME);
         Double price = (Double)  productJson.get(PRODUCT_PRICE);
-        String uniqueIdentifier = hashId(name + price);
+        String externalId = hashId(name + price);
 
-        Product product = this.productCache.get(uniqueIdentifier);
+        Product product = this.productCache.get(externalId);
         if (product == null) {
-            product = new Product(name, price);
-            this.productCache.put(uniqueIdentifier, product);
+            product = new Product(externalId, name, price);
+            this.productCache.put(externalId, product);
         }
 
         return product;
     }
 
     String hashId(String id) {
-        return "" + id.hashCode();
+        return "" + (FAKE_ID + id).hashCode();
     }
 }
