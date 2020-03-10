@@ -27,10 +27,7 @@ public class ReferenceResolver {
         for (int i = 0; i < orders.size(); i++) {
             Order order = orders.get(i);
             Order existingOrder = orderService.findByExternalId(order.getExternalId());
-            if (existingOrder != null) {
-                cacheExistingUser(existingOrder.getUser());
-                cacheEdistingProduct(existingOrder.getProducts());
-            } else {
+            if (existingOrder == null) {
                 resolveExistingUser(order);
                 resolveExistingProducts(order);
             }
