@@ -71,7 +71,7 @@ public class ShopifyOrderParser implements IEcommerceOrderParser {
     }
 
     Date ParseDate(String dateStr) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
         Date date = null;
 
