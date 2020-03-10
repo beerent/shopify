@@ -35,9 +35,6 @@ class Orders extends Component {
 
     fetch('http://localhost:8080/v1/orders/fetch', {
       method: 'POST',
-      headers: {
-        'Accept': '*/*',
-      },
       body: JSON.stringify({})
     }).then(() => {
       self.GetOrders();
@@ -54,9 +51,6 @@ class Orders extends Component {
 
     fetch('http://localhost:8080/v1/orders', {
       method: 'DELETE',
-      headers: {
-        'Accept': '*/*',
-      },
       body: JSON.stringify({})
     }).then(() => {
       self.GetOrders();
