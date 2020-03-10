@@ -30,18 +30,17 @@ class Order extends Component {
 
     return (
       <div className="card mb-3 mr-2 ml-2" style={{width : '50rem'}}>
-      <div className="card-header">
-        <div className="row container">
-          <div className="col-md-6"><span className="float-left"><b>Order #{this.props.order.id}</b></span></div>
-          <div className="col-md-6"><span className="float-right">{this.props.order.date_ordered}</span></div>
+        <div className="card-header">
+          <div className="row container">
+            <div className="col-md-6"><span className="float-left"><b>Order #{this.props.order.id}</b></span></div>
+            <div className="col-md-6"><span className="float-right">{this.props.order.date_ordered}</span></div>
+          </div>
         </div>
-      </div>
         <div className="card-body">
           <h5 className="card-title">{this.props.order.user.first_name + " " + this.props.order.user.last_name}</h5>
           <div><h6 className="card-subtitle mb-2">{this.props.order.user.email}</h6></div>
           <div><h6 className="card-subtitle mb-2">{this.props.order.user.phone_number}</h6></div>
           <p className="card-text"></p>
-
           <ul className="list-group list-group-flush">
             <li className="list-group-item"></li>
             {productElements}
