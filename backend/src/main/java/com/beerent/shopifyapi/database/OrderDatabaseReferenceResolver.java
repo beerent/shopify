@@ -11,9 +11,15 @@ import com.beerent.shopifyapi.model.users.User;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-public class ReferenceResolver {
+/*
+ * This class updates all order's children to point to
+ * existing database references if they already exists.
+ *
+ * This process is used to prevent duplicate insert attempts
+ * and NonUniqueObjectExceptions.
+ */
+public class OrderDatabaseReferenceResolver {
 
     Map<String, Product> productCache;
     Map<String, User> userCache;
@@ -51,8 +57,7 @@ public class ReferenceResolver {
     }
 
     private void resolveExistingProductsReferences(Order order) {
-        Set<OrderProductMap> products = order.getProducts();
-        for (OrderProductMap product : products) {
+        for (OrderProductMap product : order.getProducts()) {
             resolveExistingProduct(product);
         }
     }

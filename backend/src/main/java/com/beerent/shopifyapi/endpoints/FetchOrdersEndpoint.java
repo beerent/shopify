@@ -1,6 +1,6 @@
 package com.beerent.shopifyapi.endpoints;
 
-import com.beerent.shopifyapi.database.ReferenceResolver;
+import com.beerent.shopifyapi.database.OrderDatabaseReferenceResolver;
 import com.beerent.shopifyapi.database.orders.OrderService;
 import com.beerent.shopifyapi.ecommerce.IEcommerceOrdersService;
 import com.beerent.shopifyapi.model.orders.Order;
@@ -23,7 +23,7 @@ public class FetchOrdersEndpoint {
     @PostMapping(value = "/v1/orders/fetch")
     public ResponseEntity Fetch() {
         List<Order> orders = ecommerceOrdersService.FetchOrders();
-        new ReferenceResolver().resolveReferences(orders);
+        new OrderDatabaseReferenceResolver().resolveReferences(orders);
         OrderService orderService = new OrderService();
         orderService.persist(orders);
 
