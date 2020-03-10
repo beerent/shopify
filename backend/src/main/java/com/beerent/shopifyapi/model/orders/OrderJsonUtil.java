@@ -4,6 +4,7 @@ import com.beerent.shopifyapi.model.users.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.text.DateFormat;
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +28,9 @@ public class OrderJsonUtil {
         orderJson.put("id", order.getId());
         orderJson.put("user", userToJson(order.getUser()));
         orderJson.put("external_order_id", order.getExternalOrderId());
-        orderJson.put("date_ordered", ""+order.getOrdered());
+        String formattedDate =
+                DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(order.getOrdered());
+        orderJson.put("date_ordered", formattedDate);
         orderJson.put("products", productsToJson(order.getProducts()));
 
         return orderJson;
